@@ -1,308 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/github.css">
     <title>Re:ゼロから始めるPython環境</title>
 </head>
+
 <body>
     <h1 id="reゼロから始めるpython環境">Re:ゼロから始めるPython環境</h1>
-<p>作者：<a href="mailto:Darren_Daniel_Day@hotmail.com">Darren_Daniel_Day@hotmail.com</a></p>
-<p>本文章主要解答Windows中的python环境问题（也涉及一些常见的Windows下的操作）。在不做特殊说明的情况下，本文中说的操作系统环境是64位 Windows10 家庭中文版。Windows10的其他版本，如企业版、个人专业版中的操作也差不多，都可以参考本文。如果您是Windows7的用户，笔者建议您早日升级到win10，因为微软已经于2020.1.14宣布停止对Windows7的维护。</p>
-<p> 此外，本文假设您使用python官方的<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>安装程序。如果您使用Jupyter Notebook或者Anaconda等其他带有python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的工具，您也可以参考本环境配置教程，但可能会存在一定障碍。</p>
-<p>3.8.1官方安装包下载地址：<a href="https://www.python.org/downloads/release/python-381/">https://www.python.org/downloads/release/python-381/</a></p>
-<p>本文内容较多，但都比较详细。如果您对以下<a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a>有一定的了解，您可以适当跳过。如果您对这些概念并不是很清楚，或者是对计算机都比较陌生的初学者，建议您仔细阅读全文。</p>
-<blockquote>
-<p>授之以鱼不如授之以渔。仔细阅读理解本文后，您将能够较好地理解如何配置python环境，并能掌握一定的解决环境问题的知识。</p>
-</blockquote>
-<h2 id="目录结构概览">目录/结构概览</h2>
-<ul>
-<li><a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a><ul>
-<li><a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a></li>
-<li><a href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6">批处理文件</a></li>
-<li><a href="#%E7%BB%88%E7%AB%AF">终端</a><ul>
-<li><a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a></li>
-<li><a href="#windowspowershell">WindowsPowershell</a></li>
-</ul>
-</li>
-<li><a href="#dos%E5%91%BD%E4%BB%A4">DOS命令</a><ul>
-<li><a href="#%E5%91%BD%E4%BB%A4">命令</a></li>
-<li><a href="#%E5%8F%82%E6%95%B0">参数</a></li>
-<li><a href="#%E9%80%89%E9%A1%B9">选项</a></li>
-</ul>
-</li>
-<li><a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a><ul>
-<li><a href="#path">Path</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E7%90%86%E8%A7%A3python%E7%9A%84%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98">理解Python的环境问题</a><ul>
-<li><a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a><ul>
-<li><a href="#%E4%BD%BF%E7%94%A8%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E8%A7%A3%E9%87%8A%E5%99%A8">使用交互模式运行解释器</a></li>
-<li><a href="#helloworld%E7%A8%8B%E5%BA%8F">HelloWorld程序</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC">使用命令行运行脚本</a></li>
-<li><a href="#%E6%96%87%E4%BB%B6%E5%85%B3%E8%81%94">文件关联</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8C%85%E5%AE%89%E8%A3%85%E4%B8%8E%E7%AE%A1%E7%90%86%E7%A8%8B%E5%BA%8F">包安装与管理程序</a><ul>
-<li><a href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95">基本用法</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E9%95%9C%E5%83%8F">使用镜像</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#python%E7%9A%84%E7%BC%96%E8%BE%91%E5%99%A8">Python的编辑器</a><ul>
-<li><a href="#idle">IDLE</a></li>
-<li><a href="#vscode">VSCode</a></li>
-<li><a href="#pycharm">Pycharm</a></li>
-</ul>
-</li>
-</ul>
-<h2 id="基础概念">基础概念</h2>
-<h3 id="可执行文件">可执行文件</h3>
-<p><a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>是那些可以运行的文件，或者说就是一个程序。他们的文件名通常以<code>.exe</code>结尾。通常您可以在windows资源管理器中找到他们，然后直接双击打开运行。他们的内容往往是机器码，如果尝试用记事本打开，您将会看到一堆无法理解的乱码字符。</p>
-<h3 id="批处理文件">批处理文件</h3>
-<p><a href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6">批处理文件</a>也像<a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>那样可以被双击运行，但他们的内容往往是纯文本，能够阅读，并且包含一些批处理命令。他们的文件名通常以<code>.bat</code>结尾。</p>
-<h3 id="终端">终端</h3>
-<p>以下几个名称的区别不大。</p>
-<p><a href="#%E7%BB%88%E7%AB%AF">终端</a>-Terminal/控制台-Console/<a href="#%E5%91%BD%E4%BB%A4">命令</a>行-Command Line</p>
-<p>本文中将其解释为运行<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>或<a href="#windowspowershell">WindowsPowershell</a>时产生的窗口。</p>
-<h4 id="命令提示符">命令提示符</h4>
-<p>即cmd.exe。</p>
-<p><a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>是一个<a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>。您可以在开始菜单中搜索cmd找到它。运行它将产生这样一个黑色窗口：</p>
-<p><img src="img/cmd.png" alt="cmd.exe"></p>
-<h4 id="windowspowershell">WindowsPowershell</h4>
-<p>Windows Powershell也是一个<a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>。您可以在开始菜单搜索powershell找到它。运行它将产生这样一个蓝色窗口：</p>
-<p><img src="img/powershell.png" alt="cmd.exe"></p>
-<p>就基本功能而言，powershell和cmd差不多，但是用powershell可以执行linux下的<a href="#%E5%91%BD%E4%BB%A4">命令</a>，而cmd只能执行windows下的<a href="#%E5%91%BD%E4%BB%A4">命令</a>。</p>
-<h3 id="dos命令">DOS命令</h3>
-<p>有关<a href="#dos%E5%91%BD%E4%BB%A4">DOS命令</a>的概念，您可以参考百度百科：<a href="https://baike.baidu.com/item/DOS%E5%91%BD%E4%BB%A4">https://baike.baidu.com/item/DOS%E5%91%BD%E4%BB%A4</a></p>
-<p>在这里笔者简单介绍一下<a href="#dos%E5%91%BD%E4%BB%A4">DOS命令</a>里的一些概念。</p>
-<h4 id="指令">指令</h4>
-<p>本文中的<a href="#%E6%8C%87%E4%BB%A4">指令</a>是指一条完整的、可以被<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>执行的文本。您可以在<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>中输入以下内容，并按下回车键执行。</p>
-<pre><code class="language-sh"><span class="hljs-built_in">echo</span> hello</code></pre>
-<p>这条<a href="#%E6%8C%87%E4%BB%A4">指令</a>简单地输出一个hello。</p>
-<h4 id="命令">命令</h4>
-<p>本文的<a href="#%E5%91%BD%E4%BB%A4">命令</a>指的是在<a href="#%E7%BB%88%E7%AB%AF">终端</a>内输入<a href="#%E6%8C%87%E4%BB%A4">指令</a>中的第一个空格前的内容。</p>
-<p>例如安装requests库的<a href="#%E6%8C%87%E4%BB%A4">指令</a>：</p>
-<pre><code class="language-sh">pip install requests -i https:<span class="hljs-regexp">//</span>pypi.tuna.tsinghua.edu.cn<span class="hljs-regexp">/simple/</span></code></pre>
-<p>其中<code>pip</code>就是<a href="#%E5%91%BD%E4%BB%A4">命令</a>。</p>
-<p>您可以暂时先不去管上述的<a href="#%E6%8C%87%E4%BB%A4">指令</a>的含义，因为这在后文有介绍。</p>
-<p>通常，<a href="#%E5%91%BD%E4%BB%A4">命令</a>有三种：内部或外部<a href="#%E5%91%BD%E4%BB%A4">命令</a>、<a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>、<a href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6">批处理文件</a>。
-对于后两者，.exe和.bat可以省略不写。后文将会介绍如何使用命令。</p>
-<p>在大多数时候，我们也将<a href="#%E5%91%BD%E4%BB%A4">命令</a>和<a href="#%E6%8C%87%E4%BB%A4">指令</a>和<a href="#%E5%91%BD%E4%BB%A4">命令</a>行混为一谈，例如<code>执行一个[命令]行</code>这种说法，其实指的是<code>执行一个[指令]</code>，或<code>执行一个完整的[命令]语句</code>。您可以根据上下文自行辨识。</p>
-<h4 id="参数">参数</h4>
-<p>本文的<a href="#%E5%8F%82%E6%95%B0">参数</a>指的是<a href="#%E6%8C%87%E4%BB%A4">指令</a>的<a href="#%E5%91%BD%E4%BB%A4">命令</a>后面的以空格分隔的各个内容。</p>
-<p>例如上文指令中的<code>install</code>、<code>requests</code>、<code>-i</code>、<code>https://pypi.tuna.tsinghua.edu.cn/simple/</code>就是<code>pip</code><a href="#%E5%91%BD%E4%BB%A4">命令</a>的四个<a href="#%E5%8F%82%E6%95%B0">参数</a>。</p>
-<h4 id="选项">选项</h4>
-<p>本文中的<a href="#%E9%80%89%E9%A1%B9">选项</a>指的是一种特殊的<a href="#%E5%8F%82%E6%95%B0">参数</a>。他们往往以<code>-</code>开头。
-例如上文中的<code>-i</code>就是一个<a href="#%E9%80%89%E9%A1%B9">选项</a>。</p>
-<p><a href="#%E9%80%89%E9%A1%B9">选项</a>可能和其他<a href="#%E5%8F%82%E6%95%B0">参数</a>结合，形成特殊含义。例如上文的<code>-i</code><a href="#%E9%80%89%E9%A1%B9">选项</a>就是指定临时镜像源，并指定镜像地址为<code>https://pypi.tuna.tsinghua.edu.cn/simple/</code>。</p>
-<p>也有不和<a href="#%E5%8F%82%E6%95%B0">参数</a>结合（不带<a href="#%E5%8F%82%E6%95%B0">参数</a>）的<a href="#%E9%80%89%E9%A1%B9">选项</a>，例如：</p>
-<pre><code class="language-sh"><span class="hljs-attribute">pip</span> --version</code></pre>
-<p>其中<code>--version</code><a href="#%E9%80%89%E9%A1%B9">选项</a>就没有和其他<a href="#%E5%8F%82%E6%95%B0">参数</a>结合。</p>
-<h3 id="环境变量">环境变量</h3>
-<p><a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>的主要作用是存储<a href="#dos%E5%91%BD%E4%BB%A4">DOS命令</a>经常需要用到的路径。当您需要指定一个路径时，您可以通过这些变量的值来指定。这样，您就不需要每次执行<a href="#%E6%8C%87%E4%BB%A4">指令</a>都手打完整路径了。</p>
-<p>您可以在<a href="#%E6%8C%87%E4%BB%A4">指令</a>中使用<code>%变量名%</code>来引用他们的值。例如下面的<a href="#%E6%8C%87%E4%BB%A4">指令</a>能输出您的用户文件夹路径：</p>
-<pre><code class="language-sh"><span class="hljs-built_in">echo</span> %USER%</code></pre>
-<h4 id="path">Path</h4>
-<p><a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>Path是一个特殊的<a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>。它主要用于解析<a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>和<a href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6">批处理文件</a>的位置。您可以在开始菜单中搜索<code>[环境变量]</code>找到设置他们的地方，像这样：</p>
-<p><img src="img/path_step1.png" alt="path_step1">
-<img src="img/path_step2.png" alt="path_step1">
-<img src="img/path_step3.png" alt="path_step1"></p>
-<p>值得注意的是这里有两种<a href="#path">Path</a>环境变量，一种是用户变量，一种是系统变量。一般而言您只需要修改用户变量。</p>
-<p><img src="img/path_step4.png" alt="path_step1"></p>
-<p>可以看到，这里展示的是一张表。如果您使用Windows7，那么这张表将会以一个用分号<code>;</code>分隔的纯文本展示。Win10下通过<code>编辑文本</code>按钮也可以看到这些文本。</p>
-<p><a href="#path">Path</a>的主要作用就是告诉<a href="#%E5%91%BD%E4%BB%A4">命令</a>行：这些文件夹是经常要用的，请在解析<a href="#%E5%91%BD%E4%BB%A4">命令</a>的时候在这些文件夹里搜索<code>[可执行文件]</code>和<code>[批处理文件]</code>。</p>
-<p>因此，将python的安装位置文件夹加到<a href="#path">Path</a>将使得<a href="#%E5%91%BD%E4%BB%A4">命令</a>行能够解析里面的<code>python.exe</code>，或者简写的<code>python</code>。可见上图中笔者已经将python安装目录加入<a href="#path">Path</a>环境变量（可以在安装的时候勾选Add Python to <a href="#path">Path</a>，让安装程序自动帮您设置，如果忘记勾选可以手动添加）。</p>
-<p>如果要添加一个<a href="#path">Path</a>中的路径，可以点击新建按钮，然后输入值。配置python需要两个路径，一个是python.exe所在文件夹，一个是该文件夹下的Script文件夹。</p>
-<p>如果您在安装python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>时是默认的安装位置，那它将在</p>
-<pre><code class="language-text">C:\Users\您的Windows登录用户名\AppData\Local\Programs\Python\Python版本号</code></pre>
-<p>下图简单演示了如何在<a href="#%E5%91%BD%E4%BB%A4">命令</a>行检查<a href="#path">Path</a>环境变量是否配置正确。如果在<a href="#%E5%91%BD%E4%BB%A4">命令</a>行中输入<a href="#%E5%91%BD%E4%BB%A4">命令</a><code>python</code>能够进入python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的交互模式，则您已经成功配置好<a href="#path">Path</a>环境变量！</p>
-<p><img src="img/py_interact_active.png" alt="py_interact_active"></p>
-<h2 id="理解python的环境问题">理解Python的环境问题</h2>
-<h3 id="解释器">解释器</h3>
-<p>python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>主要指python.exe。</p>
-<p>python是解释型语言，其代码通过<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>解释后再运行。目前最流行的<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>是使用C语言实现的<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>。如果您是通过python官方的安装程序安装python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>（是用C语言实现的<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>），那么，您可以在python安装目录下的include文件夹中找到相关的C语言的头文件（.h文件）。</p>
-<p>但python.exe只是一个主程序，单独的python.exe并不能完成整个python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的工作，它还需要其他链接库文件才能工作。因此，python.exe就像一个<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>启动器一样。</p>
-<p>python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的主要作用是解释并运行python代码。</p>
-<h4 id="使用交互模式运行解释器">使用交互模式运行解释器</h4>
-<p>前文的图片中已经简单地介绍了一下交互模式的启动方式。在交互模式中，您将会经常看到<code>&gt;&gt;&gt;</code>和<code>...</code>。他们都是交互模式的输入提示符，只不过<code>&gt;&gt;&gt;</code>用于表示当前位置是语句的开始，<code>...</code>表示当前行是拆行书写的同一语句或者若干子句。</p>
-<p>如果您成功配置了<a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>，您可以在<a href="#%E5%91%BD%E4%BB%A4">命令</a>行执行以下<a href="#%E6%8C%87%E4%BB%A4">指令</a>：</p>
-<pre><code class="language-sh">python</code></pre>
-<p>来进入交互模式。大致效果如下图。</p>
-<p><img src="img/py_interact_demo.png" alt="py_interact_demo"></p>
-<p>您也可以直接在开始菜单搜索并运行python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>程序进入交互模式。大致效果如下图。</p>
-<p><img src="img/py_startmenu.png" alt="py_startmenu">
-<img src="img/py_startmenu_interact.png" alt="py_startmenu_interact"></p>
-<h4 id="helloworld程序">HelloWorld程序</h4>
-<p>学习任何一门编程语言总是离不开那么一个<code>Hello World</code>程序，这一点对于python也是一样的。</p>
-<p>python的<code>Hello World</code>代码很简单：</p>
-<pre><code class="language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">'Hello, world!'</span>)</code></pre>
-<p>您可以在交互模式下输入以上代码，并按下回车键。您将看到一句<code>Hello, world!</code>的输出。</p>
-<p><img src="img/py_interact_helloworld.png" alt="py_interact_helloworld"></p>
-<p>您可能还有些疑问，比如print函数是什么，<code>'Hello, world'</code>是什么，括号有什么含义，为什么会有输出。在本文中，这些并不是很重要，因为这是python的语言知识。而到此为止，您已经完成了您的第一个python程序！</p>
-<h4 id="使用命令行运行脚本">使用命令行运行脚本</h4>
-<p>如果每次运行python代码都要这样手打一遍，您一定会觉得麻烦。因此，您可以将这些代码写成<code>脚本文件</code>，并运行他们。下面将简单演示如何写脚本文件并运行他们。</p>
-<p>在Windows资源管理器中选择一个您喜欢的个人文件夹（或者新建一个文件夹），以便于管理您的python脚本。此处笔者的示例中在C盘新建了一个python_coding文件夹。</p>
-<p>接下来您可以在您的个人文件夹中创建一个文本文件，将其命名为<code>helloworld.txt</code>。如果您看不到文件的扩展名（.txt后缀），可以通过<code>查看</code>-&gt;勾选<code>文件扩展名</code>来显示他们。</p>
-<p><img src="img/exp_ext_script.png" alt="exp_ext_script"></p>
-<p>接下来您可以用记事本打开它，并在里面写入<code>Hello World</code>程序的代码：</p>
-<pre><code class="language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">'Hello, world!'</span>)</code></pre>
-<p>并将其保存。接下来您可以在这个文件夹的地址栏输入<code>cmd</code>并按下回车键（注意需要覆盖掉全部地址）。您将看到被打开的<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>，并且当前路径为您的个人文件夹。</p>
-<p><img src="img/exp_opencmd.png" alt="exp_opencmd">
-<img src="img/pycoding_cmd_promote.png" alt="pycoding_cmd_promote"></p>
-<p>接下来在<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>中执行以下<a href="#%E6%8C%87%E4%BB%A4">指令</a>：</p>
-<pre><code class="language-sh"><span class="hljs-selector-tag">python</span> <span class="hljs-selector-tag">helloworld</span><span class="hljs-selector-class">.txt</span></code></pre>
-<p>您将大概看到这样的结果：</p>
-<p><img src="img/pycoding_helloworld.png" alt="pycoding_helloworld"></p>
-<p>至此，您已经成功地在<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>运行了<code>Hello World</code>程序的python脚本！</p>
-<p>不过在习惯上，我们总是将python脚本命名成<code>.py</code>后缀。您可以将<code>helloworld.txt</code>的文件名修改成<code>helloworld.py</code>，然后执行<a href="#%E5%91%BD%E4%BB%A4">命令</a></p>
-<pre><code class="language-sh"><span class="hljs-selector-tag">python</span> <span class="hljs-selector-tag">helloworld</span><span class="hljs-selector-class">.py</span></code></pre>
-<p>其效果是一样的，因为python脚本文件其实就是纯文本。</p>
-<blockquote>
-<p>请注意，如果不进行<code>.py</code>后缀命名，将导致该脚本无法被python的<code>import</code>语句正常导入。您现在也许不必关心<code>import</code>语句是什么，但您应当明白命名成<code>.py</code>后缀是更好的。</p>
-</blockquote>
-<p>在下面的例子中，脚本已经被笔者重命名成<code>.py</code>后缀。</p>
-<p>如果您通过开始菜单打开<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>，您可以使用<code>绝对路径</code>找到您的脚本文件，并运行。</p>
-<pre><code class="language-sh"><span class="hljs-selector-tag">python</span> <span class="hljs-selector-tag">C</span>:\<span class="hljs-selector-tag">python_coding</span>\<span class="hljs-selector-tag">helloworld</span><span class="hljs-selector-class">.py</span></code></pre>
-<p>您将看到以下结果。</p>
-<p><img src="img/cmd_absolutepath_helloworld.png" alt="cmd_absolutepath_helloworld.png"></p>
-<p>您也可以使用下面的<a href="#%E6%8C%87%E4%BB%A4">指令</a>来改变当前路径为您的个人文件夹。</p>
-<pre><code class="language-sh"><span class="hljs-built_in">cd</span> C:\python_coding</code></pre>
-<p><code>cd</code>是<code>change directory</code>的英文缩写，其作用是跳转<a href="#%E7%BB%88%E7%AB%AF">终端</a>的当前路径。其<a href="#%E5%8F%82%E6%95%B0">参数</a>可以是绝对路径，也可以是相对路径。此处使用了绝对路径。</p>
-<p>然后您将可以使用指令</p>
-<pre><code class="language-sh"><span class="hljs-selector-tag">python</span> <span class="hljs-selector-tag">helloworld</span><span class="hljs-selector-class">.py</span></code></pre>
-<p>来运行您的脚本。图略。</p>
-<p>对于初学者，笔者建议多使用<strong>交互模式</strong>。使用交互模式的好处是您可以和<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>频繁交互，及时得到python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的反馈，并且产生的<strong>异常不会终止<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>程序</strong>。因此使用交互模式来探索python是最快的，即使您在学习过程中会有许多磕磕绊绊。当您对python基础知识的熟悉程度达到一定水平的时候，您可以通过写脚本来构建更大的程序和系统。</p>
-<h4 id="文件关联">文件关联</h4>
-<p>如果您将python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>和<code>.py</code>文件进行了关联，您将可以通过直接双击.py文件运行他们。<a href="#%E6%96%87%E4%BB%B6%E5%85%B3%E8%81%94">文件关联</a>可以理解为文件的默认打开方式，而这个打开方式就是一个<a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>。</p>
-<p><img src="img/openwith_interpreter.png" alt="openwith_interpreter"></p>
-<p>笔者没有进行python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>和<code>.py</code>文件的关联（笔者将<code>Visual Studio Code</code>和<code>.py</code>文件进行了关联），因此通过在打开方式中选择python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>来打开它。</p>
-<p>但是您可能看到一个窗口一闪而过，然后就消失了。这是因为python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>执行完脚本就退出了，其控制台窗口也自然被关闭。</p>
-<p>如果您想要看到窗口中的输出内容，您可以选择在<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>中执行您的脚本,而不是通过<a href="#%E6%96%87%E4%BB%B6%E5%85%B3%E8%81%94">文件关联</a>的双击运行，或者您也可以在代码中增加具有阻塞性质的内容。对于后者，您可以使用<code>input</code>函数等待输入来进行阻塞，也可以使用<code>os</code>模块的<code>system</code>函数执行一个<code>pause</code><a href="#%E5%91%BD%E4%BB%A4">命令</a>。下面是改写后的两个脚本内容：</p>
-<pre><code class="language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">'Hello, world!'</span>)
+    <p>作者：<a href="mailto:Darren_Daniel_Day@hotmail.com">Darren_Daniel_Day@hotmail.com</a></p>
+    <p>本文章主要解答Windows中的python环境问题（也涉及一些常见的Windows下的操作）。在不做特殊说明的情况下，本文中说的操作系统环境是64位 Windows10
+        家庭中文版。Windows10的其他版本，如企业版、个人专业版中的操作也差不多，都可以参考本文。如果您是Windows7的用户，笔者建议您早日升级到win10，因为微软已经于2020.1.14宣布停止对Windows7的维护。
+    </p>
+    <p> 此外，本文假设您使用python官方的<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>安装程序。如果您使用Jupyter
+        Notebook或者Anaconda等其他带有python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的工具，您也可以参考本环境配置教程，但可能会存在一定障碍。</p>
+    <p>3.8.1官方安装包下载地址：<a
+            href="https://www.python.org/downloads/release/python-381/">https://www.python.org/downloads/release/python-381/</a>
+    </p>
+    <p>本文内容较多，但都比较详细。如果您对以下<a
+            href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a>有一定的了解，您可以适当跳过。如果您对这些概念并不是很清楚，或者是对计算机都比较陌生的初学者，建议您仔细阅读全文。
+    </p>
+    <blockquote>
+        <p>授之以鱼不如授之以渔。仔细阅读理解本文后，您将能够较好地理解如何配置python环境，并能掌握一定的解决环境问题的知识与能力。</p>
+    </blockquote>
+    <h2 id="目录结构概览">目录/结构概览</h2>
+    <ul>
+        <li><a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5">基础概念</a>
+            <ul>
+                <li><a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a></li>
+                <li><a href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6">批处理文件</a></li>
+                <li><a href="#%E7%BB%88%E7%AB%AF">终端</a>
+                    <ul>
+                        <li><a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a></li>
+                        <li><a href="#windowspowershell">WindowsPowershell</a></li>
+                    </ul>
+                </li>
+                <li><a href="#dos%E5%91%BD%E4%BB%A4">DOS命令</a>
+                    <ul>
+                        <li><a href="#%E5%91%BD%E4%BB%A4">命令</a></li>
+                        <li><a href="#%E5%8F%82%E6%95%B0">参数</a></li>
+                        <li><a href="#%E9%80%89%E9%A1%B9">选项</a></li>
+                    </ul>
+                </li>
+                <li><a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>
+                    <ul>
+                        <li><a href="#path">Path</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#%E7%90%86%E8%A7%A3python%E7%9A%84%E7%8E%AF%E5%A2%83%E9%97%AE%E9%A2%98">理解Python的环境问题</a>
+            <ul>
+                <li><a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>
+                    <ul>
+                        <li><a
+                                href="#%E4%BD%BF%E7%94%A8%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F%E8%BF%90%E8%A1%8C%E8%A7%A3%E9%87%8A%E5%99%A8">使用交互模式运行解释器</a>
+                        </li>
+                        <li><a href="#helloworld%E7%A8%8B%E5%BA%8F">HelloWorld程序</a></li>
+                        <li><a
+                                href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%90%E8%A1%8C%E8%84%9A%E6%9C%AC">使用命令行运行脚本</a>
+                        </li>
+                        <li><a href="#%E6%96%87%E4%BB%B6%E5%85%B3%E8%81%94">文件关联</a></li>
+                    </ul>
+                </li>
+                <li><a href="#%E5%8C%85%E5%AE%89%E8%A3%85%E4%B8%8E%E7%AE%A1%E7%90%86%E7%A8%8B%E5%BA%8F">包安装与管理程序</a>
+                    <ul>
+                        <li><a href="#%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95">基本用法</a></li>
+                        <li><a href="#%E4%BD%BF%E7%94%A8%E9%95%9C%E5%83%8F">使用镜像</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#python%E7%9A%84%E7%BC%96%E8%BE%91%E5%99%A8">Python的编辑器</a>
+            <ul>
+                <li><a href="#idle">IDLE</a></li>
+                <li><a href="#vscode">VSCode</a></li>
+                <li><a href="#pycharm">Pycharm</a></li>
+            </ul>
+        </li>
+    </ul>
+    <h2 id="基础概念">基础概念</h2>
+    <h3 id="可执行文件">可执行文件</h3>
+    <p><a
+            href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>是那些可以运行的文件，或者说就是一个程序。他们的文件名通常以<code>.exe</code>结尾。通常您可以在windows资源管理器中找到他们，然后直接双击打开运行。他们的内容往往是机器码，如果尝试用记事本打开，您将会看到一堆无法理解的乱码字符。
+    </p>
+    <h3 id="批处理文件">批处理文件</h3>
+    <p><a href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6">批处理文件</a>也像<a
+            href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>那样可以被双击运行，但他们的内容往往是纯文本，能够阅读，并且包含一些批处理命令。他们的文件名通常以<code>.bat</code>结尾。
+    </p>
+    <h3 id="终端">终端</h3>
+    <p>以下几个名称的区别不大。</p>
+    <p><a href="#%E7%BB%88%E7%AB%AF">终端</a>-Terminal/控制台-Console/<a href="#%E5%91%BD%E4%BB%A4">命令</a>行-Command Line</p>
+    <p>本文中将其解释为运行<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>或<a
+            href="#windowspowershell">WindowsPowershell</a>时产生的窗口。</p>
+    <h4 id="命令提示符">命令提示符</h4>
+    <p>即cmd.exe。</p>
+    <p><a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>是一个<a
+            href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>。您可以在开始菜单中搜索cmd找到它。运行它将产生这样一个黑色窗口：</p>
+    <p><img src="img/cmd.png" alt="cmd.exe"></p>
+    <h4 id="windowspowershell">WindowsPowershell</h4>
+    <p>Windows Powershell也是一个<a
+            href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>。您可以在开始菜单搜索powershell找到它。运行它将产生这样一个蓝色窗口：</p>
+    <p><img src="img/powershell.png" alt="cmd.exe"></p>
+    <p>就基本功能而言，powershell和cmd差不多，但是用powershell可以执行linux下的<a href="#%E5%91%BD%E4%BB%A4">命令</a>，而cmd只能执行windows下的<a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>。</p>
+    <h3 id="dos命令">DOS命令</h3>
+    <p>有关<a href="#dos%E5%91%BD%E4%BB%A4">DOS命令</a>的概念，您可以参考百度百科：<a
+            href="https://baike.baidu.com/item/DOS%E5%91%BD%E4%BB%A4">https://baike.baidu.com/item/DOS%E5%91%BD%E4%BB%A4</a>
+    </p>
+    <p>在这里笔者简单介绍一下<a href="#dos%E5%91%BD%E4%BB%A4">DOS命令</a>里的一些概念。</p>
+    <h4 id="指令">指令</h4>
+    <p>本文中的<a href="#%E6%8C%87%E4%BB%A4">指令</a>是指一条完整的、可以被<a
+            href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>执行的文本。您可以在<a
+            href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>中输入以下内容，并按下回车键执行。</p>
+    <pre><code class="language-sh"><span class="hljs-built_in">echo</span> hello</code></pre>
+    <p>这条<a href="#%E6%8C%87%E4%BB%A4">指令</a>简单地输出一个hello。</p>
+    <h4 id="命令">命令</h4>
+    <p>本文的<a href="#%E5%91%BD%E4%BB%A4">命令</a>指的是在<a href="#%E7%BB%88%E7%AB%AF">终端</a>内输入<a
+            href="#%E6%8C%87%E4%BB%A4">指令</a>中的第一个空格前的内容。</p>
+    <p>例如安装requests库的<a href="#%E6%8C%87%E4%BB%A4">指令</a>：</p>
+    <pre><code class="language-sh">pip install requests -i https:<span class="hljs-regexp">//</span>pypi.tuna.tsinghua.edu.cn<span class="hljs-regexp">/simple/</span></code></pre>
+    <p>其中<code>pip</code>就是<a href="#%E5%91%BD%E4%BB%A4">命令</a>。</p>
+    <p>您可以暂时先不去管上述的<a href="#%E6%8C%87%E4%BB%A4">指令</a>的含义，因为这在后文有介绍。</p>
+    <p>通常，<a href="#%E5%91%BD%E4%BB%A4">命令</a>有三种：内部或外部<a href="#%E5%91%BD%E4%BB%A4">命令</a>、<a
+            href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>、<a
+            href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6">批处理文件</a>。
+        对于后两者，.exe和.bat可以省略不写。后文将会介绍如何使用命令。</p>
+    <p>在大多数时候，我们也将<a href="#%E5%91%BD%E4%BB%A4">命令</a>和<a href="#%E6%8C%87%E4%BB%A4">指令</a>和<a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>行混为一谈，例如<code>执行一个[命令]行</code>这种说法，其实指的是<code>执行一个[指令]</code>，或<code>执行一个完整的[命令]语句</code>。您可以根据上下文自行辨识。
+    </p>
+    <h4 id="参数">参数</h4>
+    <p>本文的<a href="#%E5%8F%82%E6%95%B0">参数</a>指的是<a href="#%E6%8C%87%E4%BB%A4">指令</a>的<a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>后面的以空格分隔的各个内容。</p>
+    <p>例如上文指令中的<code>install</code>、<code>requests</code>、<code>-i</code>、<code>https://pypi.tuna.tsinghua.edu.cn/simple/</code>就是<code>pip</code><a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>的四个<a href="#%E5%8F%82%E6%95%B0">参数</a>。</p>
+    <h4 id="选项">选项</h4>
+    <p>本文中的<a href="#%E9%80%89%E9%A1%B9">选项</a>指的是一种特殊的<a href="#%E5%8F%82%E6%95%B0">参数</a>。他们往往以<code>-</code>开头。
+        例如上文中的<code>-i</code>就是一个<a href="#%E9%80%89%E9%A1%B9">选项</a>。</p>
+    <p><a href="#%E9%80%89%E9%A1%B9">选项</a>可能和其他<a href="#%E5%8F%82%E6%95%B0">参数</a>结合，形成特殊含义。例如上文的<code>-i</code><a
+            href="#%E9%80%89%E9%A1%B9">选项</a>就是指定临时镜像源，并指定镜像地址为<code>https://pypi.tuna.tsinghua.edu.cn/simple/</code>。
+    </p>
+    <p>也有不和<a href="#%E5%8F%82%E6%95%B0">参数</a>结合（不带<a href="#%E5%8F%82%E6%95%B0">参数</a>）的<a
+            href="#%E9%80%89%E9%A1%B9">选项</a>，例如：</p>
+    <pre><code class="language-sh"><span class="hljs-attribute">pip</span> --version</code></pre>
+    <p>其中<code>--version</code><a href="#%E9%80%89%E9%A1%B9">选项</a>就没有和其他<a href="#%E5%8F%82%E6%95%B0">参数</a>结合。</p>
+    <h3 id="环境变量">环境变量</h3>
+    <p><a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>的主要作用是存储<a
+            href="#dos%E5%91%BD%E4%BB%A4">DOS命令</a>经常需要用到的路径。当您需要指定一个路径时，您可以通过这些变量的值来指定。这样，您就不需要每次执行<a
+            href="#%E6%8C%87%E4%BB%A4">指令</a>都手打完整路径了。</p>
+    <p>您可以在<a href="#%E6%8C%87%E4%BB%A4">指令</a>中使用<code>%变量名%</code>来引用他们的值。例如下面的<a
+            href="#%E6%8C%87%E4%BB%A4">指令</a>能输出您的用户文件夹路径：</p>
+    <pre><code class="language-sh"><span class="hljs-built_in">echo</span> %USER%</code></pre>
+    <h4 id="path">Path</h4>
+    <p><a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>Path是一个特殊的<a
+            href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>。它主要用于解析<a
+            href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>和<a
+            href="#%E6%89%B9%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6">批处理文件</a>的位置。您可以在开始菜单中搜索<code>[环境变量]</code>找到设置他们的地方，像这样：
+    </p>
+    <p><img src="img/path_step1.png" alt="path_step1">
+        <img src="img/path_step2.png" alt="path_step1">
+        <img src="img/path_step3.png" alt="path_step1"></p>
+    <p>值得注意的是这里有两种<a href="#path">Path</a>环境变量，一种是用户变量，一种是系统变量。一般而言您只需要修改用户变量。</p>
+    <p><img src="img/path_step4.png" alt="path_step1"></p>
+    <p>可以看到，这里展示的是一张表。如果您使用Windows7，那么这张表将会以一个用分号<code>;</code>分隔的纯文本展示。Win10下通过<code>编辑文本</code>按钮也可以看到这些文本。</p>
+    <p><a href="#path">Path</a>的主要作用就是告诉<a href="#%E5%91%BD%E4%BB%A4">命令</a>行：这些文件夹是经常要用的，请在解析<a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>的时候在这些文件夹里搜索<code>[可执行文件]</code>和<code>[批处理文件]</code>。</p>
+    <p>因此，将python的安装位置文件夹加到<a href="#path">Path</a>将使得<a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>行能够解析里面的<code>python.exe</code>，或者简写的<code>python</code>。可见上图中笔者已经将python安装目录加入<a
+            href="#path">Path</a>环境变量（可以在安装的时候勾选Add Python to <a href="#path">Path</a>，让安装程序自动帮您设置，如果忘记勾选可以手动添加）。</p>
+    <p>如果要添加一个<a href="#path">Path</a>中的路径，可以点击新建按钮，然后输入值。配置python需要两个路径，一个是python.exe所在文件夹，一个是该文件夹下的Script文件夹。</p>
+    <p>如果您在安装python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>时是默认的安装位置，那它将在</p>
+    <pre><code class="language-text">C:\Users\您的Windows登录用户名\AppData\Local\Programs\Python\Python版本号</code></pre>
+    <p>下图简单演示了如何在<a href="#%E5%91%BD%E4%BB%A4">命令</a>行检查<a href="#path">Path</a>环境变量是否配置正确。如果在<a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>行中输入<a href="#%E5%91%BD%E4%BB%A4">命令</a><code>python</code>能够进入python<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的交互模式，则您已经成功配置好<a href="#path">Path</a>环境变量！</p>
+    <p><img src="img/py_interact_active.png" alt="py_interact_active"></p>
+    <h2 id="理解python的环境问题">理解Python的环境问题</h2>
+    <h3 id="解释器">解释器</h3>
+    <p>python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>主要指python.exe。</p>
+    <p>python是解释型语言，其代码通过<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>解释后再运行。目前最流行的<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>是使用C语言实现的<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>。如果您是通过python官方的安装程序安装python<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>（是用C语言实现的<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>），那么，您可以在python安装目录下的include文件夹中找到相关的C语言的头文件（.h文件）。</p>
+    <p>但python.exe只是一个主程序，单独的python.exe并不能完成整个python<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的工作，它还需要其他链接库文件才能工作。因此，python.exe就像一个<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>启动器一样。</p>
+    <p>python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的主要作用是解释并运行python代码。</p>
+    <h4 id="使用交互模式运行解释器">使用交互模式运行解释器</h4>
+    <p>前文的图片中已经简单地介绍了一下交互模式的启动方式。在交互模式中，您将会经常看到<code>&gt;&gt;&gt;</code>和<code>...</code>。他们都是交互模式的输入提示符，只不过<code>&gt;&gt;&gt;</code>用于表示当前位置是语句的开始，<code>...</code>表示当前行是拆行书写的同一语句或者若干子句。
+    </p>
+    <p>如果您成功配置了<a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>，您可以在<a href="#%E5%91%BD%E4%BB%A4">命令</a>行执行以下<a
+            href="#%E6%8C%87%E4%BB%A4">指令</a>：</p>
+    <pre><code class="language-sh">python</code></pre>
+    <p>来进入交互模式。大致效果如下图。</p>
+    <p><img src="img/py_interact_demo.png" alt="py_interact_demo"></p>
+    <p>您也可以直接在开始菜单搜索并运行python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>程序进入交互模式。大致效果如下图。</p>
+    <p><img src="img/py_startmenu.png" alt="py_startmenu">
+        <img src="img/py_startmenu_interact.png" alt="py_startmenu_interact"></p>
+    <h4 id="helloworld程序">HelloWorld程序</h4>
+    <p>学习任何一门编程语言总是离不开那么一个<code>Hello World</code>程序，这一点对于python也是一样的。</p>
+    <p>python的<code>Hello World</code>代码很简单：</p>
+    <pre><code class="language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">'Hello, world!'</span>)</code></pre>
+    <p>您可以在交互模式下输入以上代码，并按下回车键。您将看到一句<code>Hello, world!</code>的输出。</p>
+    <p><img src="img/py_interact_helloworld.png" alt="py_interact_helloworld"></p>
+    <p>您可能还有些疑问，比如print函数是什么，<code>'Hello, world'</code>是什么，括号有什么含义，为什么会有输出。在本文中，这些并不是很重要，因为这是python的语言知识。而到此为止，您已经完成了您的第一个python程序！
+    </p>
+    <h4 id="使用命令行运行脚本">使用命令行运行脚本</h4>
+    <p>如果每次运行python代码都要这样手打一遍，您一定会觉得麻烦。因此，您可以将这些代码写成<code>脚本文件</code>，并运行他们。下面将简单演示如何写脚本文件并运行他们。</p>
+    <p>在Windows资源管理器中选择一个您喜欢的个人文件夹（或者新建一个文件夹），以便于管理您的python脚本。此处笔者的示例中在C盘新建了一个python_coding文件夹。</p>
+    <p>接下来您可以在您的个人文件夹中创建一个文本文件，将其命名为<code>helloworld.txt</code>。如果您看不到文件的扩展名（.txt后缀），可以通过<code>查看</code>-&gt;勾选<code>文件扩展名</code>来显示他们。
+    </p>
+    <p><img src="img/exp_ext_script.png" alt="exp_ext_script"></p>
+    <p>接下来您可以用记事本打开它，并在里面写入<code>Hello World</code>程序的代码：</p>
+    <pre><code class="language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">'Hello, world!'</span>)</code></pre>
+    <p>并将其保存。接下来您可以在这个文件夹的地址栏输入<code>cmd</code>并按下回车键（注意需要覆盖掉全部地址）。您将看到被打开的<a
+            href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>，并且当前路径为您的个人文件夹。</p>
+    <p><img src="img/exp_opencmd.png" alt="exp_opencmd">
+        <img src="img/pycoding_cmd_promote.png" alt="pycoding_cmd_promote"></p>
+    <p>接下来在<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>中执行以下<a href="#%E6%8C%87%E4%BB%A4">指令</a>：
+    </p>
+    <pre><code class="language-sh"><span class="hljs-selector-tag">python</span> <span class="hljs-selector-tag">helloworld</span><span class="hljs-selector-class">.txt</span></code></pre>
+    <p>您将大概看到这样的结果：</p>
+    <p><img src="img/pycoding_helloworld.png" alt="pycoding_helloworld"></p>
+    <p>至此，您已经成功地在<a
+            href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>运行了<code>Hello World</code>程序的python脚本！</p>
+    <p>不过在习惯上，我们总是将python脚本命名成<code>.py</code>后缀。您可以将<code>helloworld.txt</code>的文件名修改成<code>helloworld.py</code>，然后执行<a
+            href="#%E5%91%BD%E4%BB%A4">命令</a></p>
+    <pre><code class="language-sh"><span class="hljs-selector-tag">python</span> <span class="hljs-selector-tag">helloworld</span><span class="hljs-selector-class">.py</span></code></pre>
+    <p>其效果是一样的，因为python脚本文件其实就是纯文本。</p>
+    <blockquote>
+        <p>请注意，如果不进行<code>.py</code>后缀命名，将导致该脚本无法被python的<code>import</code>语句正常导入。您现在也许不必关心<code>import</code>语句是什么，但您应当明白命名成<code>.py</code>后缀是更好的。
+        </p>
+    </blockquote>
+    <p>在下面的例子中，脚本已经被笔者重命名成<code>.py</code>后缀。</p>
+    <p>如果您通过开始菜单打开<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>，您可以使用<code>绝对路径</code>找到您的脚本文件，并运行。
+    </p>
+    <pre><code class="language-sh"><span class="hljs-selector-tag">python</span> <span class="hljs-selector-tag">C</span>:\<span class="hljs-selector-tag">python_coding</span>\<span class="hljs-selector-tag">helloworld</span><span class="hljs-selector-class">.py</span></code></pre>
+    <p>您将看到以下结果。</p>
+    <p><img src="img/cmd_absolutepath_helloworld.png" alt="cmd_absolutepath_helloworld.png"></p>
+    <p>您也可以使用下面的<a href="#%E6%8C%87%E4%BB%A4">指令</a>来改变当前路径为您的个人文件夹。</p>
+    <pre><code class="language-sh"><span class="hljs-built_in">cd</span> C:\python_coding</code></pre>
+    <p><code>cd</code>是<code>change directory</code>的英文缩写，其作用是跳转<a href="#%E7%BB%88%E7%AB%AF">终端</a>的当前路径。其<a
+            href="#%E5%8F%82%E6%95%B0">参数</a>可以是绝对路径，也可以是相对路径。此处使用了绝对路径。</p>
+    <p>然后您将可以使用指令</p>
+    <pre><code class="language-sh"><span class="hljs-selector-tag">python</span> <span class="hljs-selector-tag">helloworld</span><span class="hljs-selector-class">.py</span></code></pre>
+    <p>来运行您的脚本。图略。</p>
+    <p>对于初学者，笔者建议多使用<strong>交互模式</strong>。使用交互模式的好处是您可以和<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>频繁交互，及时得到python<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>的反馈，并且产生的<strong>异常不会终止<a
+                href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>程序</strong>。因此使用交互模式来探索python是最快的，即使您在学习过程中会有许多磕磕绊绊。当您对python基础知识的熟悉程度达到一定水平的时候，您可以通过写脚本来构建更大的程序和系统。
+    </p>
+    <h4 id="文件关联">文件关联</h4>
+    <p>如果您将python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>和<code>.py</code>文件进行了关联，您将可以通过直接双击.py文件运行他们。<a
+            href="#%E6%96%87%E4%BB%B6%E5%85%B3%E8%81%94">文件关联</a>可以理解为文件的默认打开方式，而这个打开方式就是一个<a
+            href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>。</p>
+    <p><img src="img/openwith_interpreter.png" alt="openwith_interpreter"></p>
+    <p>笔者没有进行python<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>和<code>.py</code>文件的关联（笔者将<code>Visual Studio Code</code>和<code>.py</code>文件进行了关联），因此通过在打开方式中选择python<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>来打开它。</p>
+    <p>但是您可能看到一个窗口一闪而过，然后就消失了。这是因为python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>执行完脚本就退出了，其控制台窗口也自然被关闭。</p>
+    <p>如果您想要看到窗口中的输出内容，您可以选择在<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>中执行您的脚本,而不是通过<a
+            href="#%E6%96%87%E4%BB%B6%E5%85%B3%E8%81%94">文件关联</a>的双击运行，或者您也可以在代码中增加具有阻塞性质的内容。对于后者，您可以使用<code>input</code>函数等待输入来进行阻塞，也可以使用<code>os</code>模块的<code>system</code>函数执行一个<code>pause</code><a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>。下面是改写后的两个脚本内容：</p>
+    <pre><code class="language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">'Hello, world!'</span>)
 input(<span class="hljs-string">'输入任何按下回车键关闭......'</span>)</code></pre>
-<pre><code class="language-python"><span class="hljs-keyword">import</span> os
+    <pre><code class="language-python"><span class="hljs-keyword">import</span> os
 print(<span class="hljs-string">'Hello, world!'</span>)
 os.system(<span class="hljs-string">'pause'</span>)</code></pre>
-<h3 id="包安装与管理程序">包安装与管理程序</h3>
-<p>python的最大优点就是第三方库丰富易用。因此，学会安装和配置第三方库也很重要。而安装第三方库最主要的工具就是pip。</p>
-<p>pip的主体也是个<a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>（pip.exe）。如果您在安装python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>时勾选了pip，您可以在python的安装目录下的Scripts文件夹中找到它。</p>
-<p><img src="img/pip_fileposition.png" alt="pip_fileposition"></p>
-<p>如果您没有安装pip，您可以重新安装python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>并勾选pip。或者您可以参考这里:<a href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a>。网页是英文的，如果您有阅读障碍，请使用翻译。</p>
-<p>您可以通过<a href="#%E6%8C%87%E4%BB%A4">指令</a></p>
-<pre><code class="language-sh"><span class="hljs-attribute">pip</span> --version</code></pre>
-<p>来检查您是否正确配置了使用pip需要的<a href="#path">Path</a> <a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>。如果您看到了您的pip版本，则说明您已经成功配置<a href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>。如果没有，您需要手动配置<a href="#path">Path</a>环境变量。如果您认真阅读并理解了前文的配置<a href="#path">Path</a>相关内容，您应当有能力自行配置。</p>
-<h4 id="基本用法">基本用法</h4>
-<p>首先，您需要知道您要安装的第三方库的名称。此处以比较常用的网络请求库requests为例。</p>
-<p>您可以在pip的官网：<a href="https://pypi.org/">https://pypi.org/</a>搜索您要安装的第三方库。</p>
-<p><img src="img/pypi_search_requests.png" alt="pypi_search_requests">
-<img src="img/pypi_search_requests_result.png" alt="pypi_search_requests_result">
-<img src="img/pypi_install_promote.png" alt="pypi_search_requests"></p>
-<p>值得一提的是，您可以在pypi找到第三方库的使用文档，这非常重要。看10个国人做的快速入门教程不如好好读一遍库原作者的文档。</p>
-<p>找到安装<a href="#%E6%8C%87%E4%BB%A4">指令</a>后，您可以在<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>执行它。当然，由于笔者已经安装了requests库，所以看到的是一堆<code>Requirement already satisfied</code>（安装需求已经满足）。</p>
-<p><img src="img/install_alreadysatisfied.png" alt="install_alreadysatisfied"></p>
-<p>您可以使用指令</p>
-<pre><code class="language-sh"><span class="hljs-attribute">pip</span> --help</code></pre>
-<p>来查看pip的用法。</p>
-<p><img src="img/pip_help.png" alt="pip_help"></p>
-<p>在张表里，<code>install</code>是<a href="#%E5%91%BD%E4%BB%A4">命令</a><code>pip</code>的一个可用<a href="#%E5%8F%82%E6%95%B0">参数</a>，不过在<a href="#%E6%8C%87%E4%BB%A4">指令</a>执行的时候被解释成一个子<a href="#%E5%91%BD%E4%BB%A4">命令</a>。</p>
-<p>如果您想进一步知道子<a href="#%E5%91%BD%E4%BB%A4">命令</a><code>install</code>的用法，您可以使用指令</p>
-<pre><code class="language-sh">pip <span class="hljs-keyword">install</span> <span class="hljs-comment">--help</span></code></pre>
-<p>来查看。</p>
-<p><img src="img/pip_install_help_1.png" alt="pip_install_help_1"></p>
-<p>您可能认为笔者应当直接教学如何使用pip，而不是展示如何阅读这些帮助。但笔者认为，学会阅读这些对您解决问题的水平提升会带来很大帮助。</p>
-<p>根据上图的第一个用法，我们可以得出最简单的用法：</p>
-<pre><code class="language-sh">pip install <span class="hljs-tag">&lt;<span class="hljs-name">requirement</span> <span class="hljs-attr">specifier</span>&gt;</span></code></pre>
-<p>即方括号内的可选<a href="#%E5%8F%82%E6%95%B0">参数</a>都不给，只给一个<code>requirement specifier</code>，“需求描述符”（即库的名字）。</p>
-<p>前文运行过的<code>pip install requests</code>正是这种用法。</p>
-<h4 id="使用镜像">使用镜像</h4>
-<p>如果您在安装过程中产生了网络超时错误，您应当考虑使用代理（翻墙）或者使用国内镜像。</p>
-<p>您可以在install的help中找到<a href="#%E4%BD%BF%E7%94%A8%E9%95%9C%E5%83%8F">使用镜像</a>的方法。</p>
-<p><img src="img/pip_install_help_2.png" alt="pip_install_help_2"></p>
-<p>您可以使用以下的国内镜像地址：</p>
-<ol>
-<li>阿里云 <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></li>
-<li>豆瓣 <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></li>
-<li>清华大学 <a href="https://pypi.tuna.tsinghua.edu.cn/simple/">https://pypi.tuna.tsinghua.edu.cn/simple/</a></li>
-<li>中国科学技术大学 <a href="http://pypi.mirrors.ustc.edu.cn/simple/">http://pypi.mirrors.ustc.edu.cn/simple/</a></li>
-<li>华中科技大学 <a href="http://pypi.hustunique.com/">http://pypi.hustunique.com/</a></li>
-</ol>
-<p>笔者一般使用的是清华大学的镜像。</p>
-<p>如果您根据上文已经理解了pip的install子<a href="#%E5%91%BD%E4%BB%A4">命令</a>的用法，您不难得出使用清华大学镜像安装requests库的<a href="#%E6%8C%87%E4%BB%A4">指令</a>是</p>
-<pre><code class="language-sh">pip install requests -i https:<span class="hljs-regexp">//</span>pypi.tuna.tsinghua.edu.cn<span class="hljs-regexp">/simple/</span></code></pre>
-<p>或者</p>
-<pre><code class="language-sh">pip <span class="hljs-keyword">install</span> requests <span class="hljs-comment">--index-url https://pypi.tuna.tsinghua.edu.cn/simple/</span></code></pre>
-<p>如果您希望修改默认的安装地址为国内镜像，您可以参考这篇文章：<a href="https://blog.csdn.net/sinat_21591675/article/details/82770360">https://blog.csdn.net/sinat_21591675/article/details/82770360</a></p>
-<h2 id="python的编辑器">Python的编辑器</h2>
-<p>现在您应当已经具备运行编写脚本代码和运行代码、安装第三方库的能力。但用记事本编写代码实在是令人无法接受，因为黑白界面不太好看，并且当代码量大起来以后，您将无法很好地阅读您的代码。</p>
-<p>因此，您需要一个代码编辑器来简化一些操作，并提供更好的代码渲染视图。一个好的代码编辑器能助您事半功倍！</p>
-<p>您可以根据个人喜好选择代码编辑器。如果您是编程的初学者，笔者建议您使用Visual Studio Code。</p>
-<p>下面笔者将介绍三款能写python的代码编辑器的简单使用和环境配置相关事宜。</p>
-<h3 id="idle">IDLE</h3>
-<p><a href="#idle">IDLE</a>是python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>自带的，也是官方推荐的初学者编辑器。最直白的缺点是界面并不是很好看（但比记事本好看点）。</p>
-<p>如果您按照默认安装了<a href="#idle">IDLE</a>，您可以在开始菜单中搜索<a href="#idle">IDLE</a>并找到它。</p>
-<p>打开后，您将大概看到这样的界面：</p>
-<p><img src="img/idle_shell.png" alt="idle_shell"></p>
-<p>您可以看到熟悉的<code>&gt;&gt;&gt;</code>。这表示您正在python交互模式当中。笔者将简单地键入几行python代码（当然最后的一行<code>?</code>是不合法的python代码），您大概会体会到<a href="#idle">IDLE</a>的python交互模式和在<a href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>中的区别——代码的颜色不一样。这种对代码的颜色渲染有助于您更好地阅读代码。</p>
-<p><img src="img/idle_demo.png" alt="idle_demo"></p>
-<p>您可以通过点击菜单栏的<code>File</code>-&gt;<code>New File</code>来创建一个新的脚本文件。这将打开一个新的<a href="#idle">IDLE</a>窗口。</p>
-<p>当您创建脚本后，您将可以书写您的脚本代码，像在记事本中那样，只不过代码将被不同颜色渲染，可读性有所提升。</p>
-<p>笔者写入了这样的代码：</p>
-<pre><code class="language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">'Hello, world'</span>)
+    <h3 id="包安装与管理程序">包安装与管理程序</h3>
+    <p>python的最大优点就是第三方库丰富易用。因此，学会安装和配置第三方库也很重要。而安装第三方库最主要的工具就是pip。</p>
+    <p>pip的主体也是个<a href="#%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6">可执行文件</a>（pip.exe）。如果您在安装python<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>时勾选了pip，您可以在python的安装目录下的Scripts文件夹中找到它。</p>
+    <p><img src="img/pip_fileposition.png" alt="pip_fileposition"></p>
+    <p>如果您没有安装pip，您可以重新安装python<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>并勾选pip。或者您可以参考这里:<a
+            href="https://pip.pypa.io/en/stable/installing/">https://pip.pypa.io/en/stable/installing/</a>。网页是英文的，如果您有阅读障碍，请使用翻译。
+    </p>
+    <p>您可以通过<a href="#%E6%8C%87%E4%BB%A4">指令</a></p>
+    <pre><code class="language-sh"><span class="hljs-attribute">pip</span> --version</code></pre>
+    <p>来检查您是否正确配置了使用pip需要的<a href="#path">Path</a> <a
+            href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>。如果您看到了您的pip版本，则说明您已经成功配置<a
+            href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">环境变量</a>。如果没有，您需要手动配置<a
+            href="#path">Path</a>环境变量。如果您认真阅读并理解了前文的配置<a href="#path">Path</a>相关内容，您应当有能力自行配置。</p>
+    <h4 id="基本用法">基本用法</h4>
+    <p>首先，您需要知道您要安装的第三方库的名称。此处以比较常用的网络请求库requests为例。</p>
+    <p>您可以在pip的官网：<a href="https://pypi.org/">https://pypi.org/</a>搜索您要安装的第三方库。</p>
+    <p><img src="img/pypi_search_requests.png" alt="pypi_search_requests">
+        <img src="img/pypi_search_requests_result.png" alt="pypi_search_requests_result">
+        <img src="img/pypi_install_promote.png" alt="pypi_search_requests"></p>
+    <p>值得一提的是，您可以在pypi找到第三方库的使用文档，这非常重要。看10个国人做的快速入门教程不如好好读一遍库原作者的文档。</p>
+    <p>找到安装<a href="#%E6%8C%87%E4%BB%A4">指令</a>后，您可以在<a
+            href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>执行它。当然，由于笔者已经安装了requests库，所以看到的是一堆<code>Requirement already satisfied</code>（安装需求已经满足）。
+    </p>
+    <p><img src="img/install_alreadysatisfied.png" alt="install_alreadysatisfied"></p>
+    <p>您可以使用指令</p>
+    <pre><code class="language-sh"><span class="hljs-attribute">pip</span> --help</code></pre>
+    <p>来查看pip的用法。</p>
+    <p><img src="img/pip_help.png" alt="pip_help"></p>
+    <p>在张表里，<code>install</code>是<a href="#%E5%91%BD%E4%BB%A4">命令</a><code>pip</code>的一个可用<a
+            href="#%E5%8F%82%E6%95%B0">参数</a>，不过在<a href="#%E6%8C%87%E4%BB%A4">指令</a>执行的时候被解释成一个子<a
+            href="#%E5%91%BD%E4%BB%A4">命令</a>。</p>
+    <p>如果您想进一步知道子<a href="#%E5%91%BD%E4%BB%A4">命令</a><code>install</code>的用法，您可以使用指令</p>
+    <pre><code class="language-sh">pip <span class="hljs-keyword">install</span> <span class="hljs-comment">--help</span></code></pre>
+    <p>来查看。</p>
+    <p><img src="img/pip_install_help_1.png" alt="pip_install_help_1"></p>
+    <p>您可能认为笔者应当直接教学如何使用pip，而不是展示如何阅读这些帮助。但笔者认为，学会阅读这些对您解决问题的水平提升会带来很大帮助。</p>
+    <p>根据上图的第一个用法，我们可以得出最简单的用法：</p>
+    <pre><code class="language-sh">pip install <span class="hljs-tag">&lt;<span class="hljs-name">requirement</span> <span class="hljs-attr">specifier</span>&gt;</span></code></pre>
+    <p>即方括号内的可选<a href="#%E5%8F%82%E6%95%B0">参数</a>都不给，只给一个<code>requirement specifier</code>，“需求描述符”（即库的名字）。</p>
+    <p>前文运行过的<code>pip install requests</code>正是这种用法。</p>
+    <h4 id="使用镜像">使用镜像</h4>
+    <p>如果您在安装过程中产生了网络超时错误，您应当考虑使用代理（翻墙）或者使用国内镜像。</p>
+    <p>您可以在install的help中找到<a href="#%E4%BD%BF%E7%94%A8%E9%95%9C%E5%83%8F">使用镜像</a>的方法。</p>
+    <p><img src="img/pip_install_help_2.png" alt="pip_install_help_2"></p>
+    <p>您可以使用以下的国内镜像地址：</p>
+    <ol>
+        <li>阿里云 <a href="http://mirrors.aliyun.com/pypi/simple/">http://mirrors.aliyun.com/pypi/simple/</a></li>
+        <li>豆瓣 <a href="http://pypi.douban.com/simple/">http://pypi.douban.com/simple/</a></li>
+        <li>清华大学 <a href="https://pypi.tuna.tsinghua.edu.cn/simple/">https://pypi.tuna.tsinghua.edu.cn/simple/</a></li>
+        <li>中国科学技术大学 <a href="http://pypi.mirrors.ustc.edu.cn/simple/">http://pypi.mirrors.ustc.edu.cn/simple/</a></li>
+        <li>华中科技大学 <a href="http://pypi.hustunique.com/">http://pypi.hustunique.com/</a></li>
+    </ol>
+    <p>笔者一般使用的是清华大学的镜像。</p>
+    <p>如果您根据上文已经理解了pip的install子<a href="#%E5%91%BD%E4%BB%A4">命令</a>的用法，您不难得出使用清华大学镜像安装requests库的<a
+            href="#%E6%8C%87%E4%BB%A4">指令</a>是</p>
+    <pre><code class="language-sh">pip install requests -i https:<span class="hljs-regexp">//</span>pypi.tuna.tsinghua.edu.cn<span class="hljs-regexp">/simple/</span></code></pre>
+    <p>或者</p>
+    <pre><code class="language-sh">pip <span class="hljs-keyword">install</span> requests <span class="hljs-comment">--index-url https://pypi.tuna.tsinghua.edu.cn/simple/</span></code></pre>
+    <p>如果您希望修改默认的安装地址为国内镜像，您可以参考这篇文章：<a
+            href="https://blog.csdn.net/sinat_21591675/article/details/82770360">https://blog.csdn.net/sinat_21591675/article/details/82770360</a>
+    </p>
+    <h2 id="python的编辑器">Python的编辑器</h2>
+    <p>现在您应当已经具备运行编写脚本代码和运行代码、安装第三方库的能力。但用记事本编写代码实在是令人无法接受，因为黑白界面不太好看，并且当代码量大起来以后，您将无法很好地阅读您的代码。</p>
+    <p>因此，您需要一个代码编辑器来简化一些操作，并提供更好的代码渲染视图。一个好的代码编辑器能助您事半功倍！</p>
+    <p>您可以根据个人喜好选择代码编辑器。如果您是编程的初学者，笔者建议您使用Visual Studio Code。</p>
+    <p>下面笔者将介绍三款能写python的代码编辑器的简单使用和环境配置相关事宜。</p>
+    <h3 id="idle">IDLE</h3>
+    <p><a href="#idle">IDLE</a>是python<a
+            href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>自带的，也是官方推荐的初学者编辑器。最直白的缺点是界面并不是很好看（但比记事本好看点）。</p>
+    <p>如果您按照默认安装了<a href="#idle">IDLE</a>，您可以在开始菜单中搜索<a href="#idle">IDLE</a>并找到它。</p>
+    <p>打开后，您将大概看到这样的界面：</p>
+    <p><img src="img/idle_shell.png" alt="idle_shell"></p>
+    <p>您可以看到熟悉的<code>&gt;&gt;&gt;</code>。这表示您正在python交互模式当中。笔者将简单地键入几行python代码（当然最后的一行<code>?</code>是不合法的python代码），您大概会体会到<a
+            href="#idle">IDLE</a>的python交互模式和在<a
+            href="#%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6">命令提示符</a>中的区别——代码的颜色不一样。这种对代码的颜色渲染有助于您更好地阅读代码。</p>
+    <p><img src="img/idle_demo.png" alt="idle_demo"></p>
+    <p>您可以通过点击菜单栏的<code>File</code>-&gt;<code>New File</code>来创建一个新的脚本文件。这将打开一个新的<a href="#idle">IDLE</a>窗口。</p>
+    <p>当您创建脚本后，您将可以书写您的脚本代码，像在记事本中那样，只不过代码将被不同颜色渲染，可读性有所提升。</p>
+    <p>笔者写入了这样的代码：</p>
+    <pre><code class="language-python"><span class="hljs-built_in">print</span>(<span class="hljs-string">'Hello, world'</span>)
 name = <span class="hljs-string">'Darren'</span></code></pre>
-<p><img src="img/idle_script.png" alt="idle_script"></p>
-<p>接下来您可以点击菜单中的<code>Run</code>-&gt;<code>Run Module(F5)</code>或者按下F5键来运行您的脚本。不过在那之前，您可能需要先选择一个位置保存您的脚本，<a href="#idle">IDLE</a>会弹出这样的提示：</p>
-<p><img src="img/save_promote.png" alt="save_promote"></p>
-<p>您只需简单确定并选择您的个人文件夹，并命名您的脚本。此处笔者选择了C:\python_coding文件夹，并将脚本命名为<code>idle_demo</code>。不必担心后缀名，<a href="#idle">IDLE</a>将自动为您命名后缀为<code>.py</code>。</p>
-<p><img src="img/idle_save.png" alt="idle_save"></p>
-<p>保存并运行后，您将看到print函数输出的结果：</p>
-<p><img src="img/idle_runmodule.png" alt="idle_runmodule"></p>
-<p>更进一步地，您也可以在python交互中使用刚才脚本中定义过的name变量，并带有代码提示（您可以输入一个n，并按一下Tab键，这将弹出如下图1的下拉菜单，此时选择第一个并按Tab键一次和回车键一次或两下Tab键将可以补全输入，帮您键入整个name），但Run Module运行脚本前的交互中由for循环定义的变量i将变成未定义的。</p>
-<p><img src="img/idle_interact_infer.png" alt="idle_interact_infer">
-<img src="img/idle_interact_result.png" alt="idle_interact_result"></p>
-<p>以上是简单的<a href="#idle">IDLE</a>中的操作。如果您有兴趣，可以自行探索其他功能（例如格式化代码、调试、有趣的Turtle图形化库的官方示例代码等）。</p>
-<h3 id="vscode">VSCode</h3>
-<p>Visual Studio Code（简称vscode）是微软开发的一款轻量的代码编辑器。她不是像Sublime Text那样的纯文本编辑，也不是像Visual Studio那样的大型集成开发环境，这一点使得大多数的开发者选择了她。更酷的是，她完全开源免费。您可以在GitHub上找到她的源码：<a href="https://github.com/microsoft/vscode">https://github.com/microsoft/vscode</a>。</p>
-<p>您可以通过这个链接下载她：<a href="https://code.visualstudio.com/Download">https://code.visualstudio.com/Download</a>。</p>
-<blockquote>
-<p>Visual Studio Code使用微软开发的语言Typescript编写，其核心是<code>Chromium</code>（类似浏览器的内核）和<code>Electron</code>。vscode虽然本体功能不多，但其插件社区很大，<strong>丰富的插件使得vscode变得强大</strong>。</p>
-</blockquote>
-<p>安装程序是中文的，您不必担心有太大的障碍。如果您不想做太多选择，您可以直接一路Next安装。安装完毕后，您可以启动她。对于写python脚本的需求，您需要两个插件。</p>
-<ul>
-<li>Python（必装，是python的语言支持插件）</li>
-<li>Chinese (Simplified) Language Pack for Visual Studio Code（可选，官方汉化包）</li>
-</ul>
-<p>您可以在插件商店搜索这两个名字，并安装。大致步骤如下图。</p>
-<p><img src="img/vscode_plugin_python.png" alt="vscode_plugin_python"></p>
-<blockquote>
-<p>您的vscode外观颜色可能和笔者有所不同，因为笔者还安装了主题插件。您也可以根据个人喜好安装主题插件。笔者使用的主题插件是<code>One Monokai Theme</code>，配色相比默认深色主题更加柔和。</p>
-</blockquote>
-<p>接下来，您可以打开一个文件夹，作为vscode的工作目录。笔者选择了前文的C:\python_coding文件夹。</p>
-<blockquote>
-<p>vscode可以使用文件夹作为工作目录，也可以打开工作区（需要工作区配置文件），也可以不打开而进行单纯的单文件代码编辑。笔者推荐使用<code>打开文件夹</code>作为工作目录，以方便脚本文件的管理。</p>
-</blockquote>
-<p><img src="img/vscode_openfolder.png" alt="vscode_openfolder"></p>
-<p>下面是简单的界面介绍：</p>
-<p><img src="img/vscode_ui_exp.png" alt="vscode_ui_exp"></p>
-<blockquote>
-<p>您可能注意到了背景图片<code>津岛善子 下界の儀式</code>。背景图片效果来自于插件vscode-background，如果您需要，您可以自行安装配置。</p>
-</blockquote>
-<p>接下来几张图简单介绍如何在vscode中调试运行您的python脚本。</p>
-<p><img src="img/vscode_dbg_pyfile.png" alt="vscode_dbg_pyfile">
-<img src="img/vscode_dbg_result.png" alt="vscode_dbg_result"></p>
-<p>如果您发现频繁选择第一个<code>Python File</code><a href="#%E9%80%89%E9%A1%B9">选项</a>比较麻烦，您可以按照如下步骤添加配置文件。</p>
-<p><img src="img/vscode_dbgconfig_pyfile.png" alt="vscode_dbgconfig_pyfile">
-<img src="img/vscode_dbgconfig_json.png" alt="vscode_dbgconfig_json"></p>
-<blockquote>
-<p>如果您认为这样的操作过于麻烦，您也可以安装code-runner插件，一键运行您的脚本。安装后，您将在右上角看到一个空心的小三角形图标。您可以使用它直接运行您当前选中的脚本。</p>
-</blockquote>
-<p>接下来几张图将简单介绍使用vscode调试代码（Debug）的方法。</p>
-<p>笔者将使用这样的python代码进行调试示例：</p>
-<pre><code class="language-python">a = <span class="hljs-string">"global variable a"</span>
+    <p><img src="img/idle_script.png" alt="idle_script"></p>
+    <p>接下来您可以点击菜单中的<code>Run</code>-&gt;<code>Run Module(F5)</code>或者按下F5键来运行您的脚本。不过在那之前，您可能需要先选择一个位置保存您的脚本，<a
+            href="#idle">IDLE</a>会弹出这样的提示：</p>
+    <p><img src="img/save_promote.png" alt="save_promote"></p>
+    <p>您只需简单确定并选择您的个人文件夹，并命名您的脚本。此处笔者选择了C:\python_coding文件夹，并将脚本命名为<code>idle_demo</code>。不必担心后缀名，<a
+            href="#idle">IDLE</a>将自动为您命名后缀为<code>.py</code>。</p>
+    <p><img src="img/idle_save.png" alt="idle_save"></p>
+    <p>保存并运行后，您将看到print函数输出的结果：</p>
+    <p><img src="img/idle_runmodule.png" alt="idle_runmodule"></p>
+    <p>更进一步地，您也可以在python交互中使用刚才脚本中定义过的name变量，并带有代码提示（您可以输入一个n，并按一下Tab键，这将弹出如下图1的下拉菜单，此时选择第一个并按Tab键一次和回车键一次或两下Tab键将可以补全输入，帮您键入整个name），但Run
+        Module运行脚本前的交互中由for循环定义的变量i将变成未定义的。</p>
+    <p><img src="img/idle_interact_infer.png" alt="idle_interact_infer">
+        <img src="img/idle_interact_result.png" alt="idle_interact_result"></p>
+    <p>以上是简单的<a href="#idle">IDLE</a>中的操作。如果您有兴趣，可以自行探索其他功能（例如格式化代码、调试、有趣的Turtle图形化库的官方示例代码等）。</p>
+    <h3 id="vscode">VSCode</h3>
+    <p>Visual Studio Code（简称vscode）是微软开发的一款轻量的代码编辑器。她不是像Sublime Text那样的纯文本编辑，也不是像Visual
+        Studio那样的大型集成开发环境，这一点使得大多数的开发者选择了她。更酷的是，她完全开源免费。您可以在GitHub上找到她的源码：<a
+            href="https://github.com/microsoft/vscode">https://github.com/microsoft/vscode</a>。</p>
+    <p>您可以通过这个链接下载她：<a href="https://code.visualstudio.com/Download">https://code.visualstudio.com/Download</a>。</p>
+    <blockquote>
+        <p>Visual Studio
+            Code使用微软开发的语言Typescript编写，其核心是<code>Chromium</code>（类似浏览器的内核）和<code>Electron</code>。vscode虽然本体功能不多，但其插件社区很大，<strong>丰富的插件使得vscode变得强大</strong>。
+        </p>
+    </blockquote>
+    <p>安装程序是中文的，您不必担心有太大的障碍。如果您不想做太多选择，您可以直接一路Next安装。安装完毕后，您可以启动她。对于写python脚本的需求，您需要两个插件。</p>
+    <ul>
+        <li>Python（必装，是python的语言支持插件）</li>
+        <li>Chinese (Simplified) Language Pack for Visual Studio Code（可选，官方汉化包）</li>
+    </ul>
+    <p>您可以在插件商店搜索这两个名字，并安装。大致步骤如下图。</p>
+    <p><img src="img/vscode_plugin_python.png" alt="vscode_plugin_python"></p>
+    <blockquote>
+        <p>您的vscode外观颜色可能和笔者有所不同，因为笔者还安装了主题插件。您也可以根据个人喜好安装主题插件。笔者使用的主题插件是<code>One Monokai Theme</code>，配色相比默认深色主题更加柔和。
+        </p>
+    </blockquote>
+    <p>接下来，您可以打开一个文件夹，作为vscode的工作目录。笔者选择了前文的C:\python_coding文件夹。</p>
+    <blockquote>
+        <p>vscode可以使用文件夹作为工作目录，也可以打开工作区（需要工作区配置文件），也可以不打开而进行单纯的单文件代码编辑。笔者推荐使用<code>打开文件夹</code>作为工作目录，以方便脚本文件的管理。</p>
+    </blockquote>
+    <p><img src="img/vscode_openfolder.png" alt="vscode_openfolder"></p>
+    <p>下面是简单的界面介绍：</p>
+    <p><img src="img/vscode_ui_exp.png" alt="vscode_ui_exp"></p>
+    <blockquote>
+        <p>您可能注意到了背景图片<code>津岛善子 下界の儀式</code>。背景图片效果来自于插件vscode-background，如果您需要，您可以自行安装配置。</p>
+    </blockquote>
+    <p>接下来几张图简单介绍如何在vscode中调试运行您的python脚本。</p>
+    <p><img src="img/vscode_dbg_pyfile.png" alt="vscode_dbg_pyfile">
+        <img src="img/vscode_dbg_result.png" alt="vscode_dbg_result"></p>
+    <p>如果您发现频繁选择第一个<code>Python File</code><a href="#%E9%80%89%E9%A1%B9">选项</a>比较麻烦，您可以按照如下步骤添加配置文件。</p>
+    <p><img src="img/vscode_dbgconfig_pyfile.png" alt="vscode_dbgconfig_pyfile">
+        <img src="img/vscode_dbgconfig_json.png" alt="vscode_dbgconfig_json"></p>
+    <blockquote>
+        <p>如果您认为这样的操作过于麻烦，您也可以安装code-runner插件，一键运行您的脚本。安装后，您将在右上角看到一个空心的小三角形图标。您可以使用它直接运行您当前选中的脚本。</p>
+    </blockquote>
+    <p>接下来几张图将简单介绍使用vscode调试代码（Debug）的方法。</p>
+    <p>笔者将使用这样的python代码进行调试示例：</p>
+    <pre><code class="language-python">a = <span class="hljs-string">"global variable a"</span>
 
 
 <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">function_1</span><span class="hljs-params">(a)</span>:</span>
@@ -316,47 +421,57 @@ name = <span class="hljs-string">'Darren'</span></code></pre>
 <span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
     function_2()
 </code></pre>
-<p><img src="img/vscode_dbg_breakpoint.png" alt="vscode_dbg_breakpoint"></p>
-<p>接下来按F5</p>
-<p><img src="img/vscode_dbg_pause.png" alt="vscode_dbg_pause">
-<img src="img/vscode_dbg_nextstep.png" alt="vscode_dbg_nextstep"></p>
-<p>您也许会想到：不打断点的调试，其实就和直接运行差不多。确实如此。但是调试需要建立和vscode的连接，因此会比直接运行慢一点。您可以在<a href="#%E7%BB%88%E7%AB%AF">终端</a>中执行<a href="#%E6%8C%87%E4%BB%A4">指令</a>运行您的脚本，也可以借助code-runner插件，来直接运行您的脚本。</p>
-<p>以上是对vscode写python的简单介绍，您可以自行探索其他功能，例如代码补全、代码格式化、快捷代码重构操作、文本搜索等。vscode还支持许多其他语言，例如主流的Java、C/C++、Javascript、HTML、C#等等。您只需安装相应的语言支持插件，就能够在vscode中编写他们！</p>
-<h3 id="pycharm">Pycharm</h3>
-<p><a href="#pycharm">Pycharm</a>是Jet Brains公司开发的一款python的IDE（集成开发环境）。它功能比较多，也比较专业，但同时也比较笨重、复杂，不适合编程的初学者。如果您正在使用的教程/课程使用的是<a href="#pycharm">Pycharm</a>，您可以参考本文进行配置。</p>
-<p><a href="#pycharm">Pycharm</a>有社区版（Community）和专业版（Professional），其中社区版是免费的，而专业版是收费的。专业版的功能比社区版的相对多一些。您可以在这里下载它：<a href="https://www.jetbrains.com/pycharm/download/#section=windows">https://www.jetbrains.com/pycharm/download/#section=windows</a>。</p>
-<p>如果您选择了专业版，您将需要激活，或者免费试用一段时间。如果您是学生，您可以使用学生认证进行激活，并免费使用Pycharm到您毕业为止，可以参考这篇文章：<a href="https://blog.csdn.net/qq_36667170/article/details/79905198">https://blog.csdn.net/qq_36667170/article/details/79905198</a>。如果您不是学生，又希望使用专业版，请考虑购买许可。<strong>如果您尝试使用破解版，并对Jet Brains公司造成了损失而被追究责任，笔者概不负责</strong>。</p>
-<p>本教程将演示如何使用社区版。</p>
-<p>安装<a href="#%E9%80%89%E9%A1%B9">选项</a>您可以根据个人需要进行变更。安装完毕后打开，您将看到这样的界面：</p>
-<p><img src="img/pyc_start.png" alt="pyc_start"></p>
-<p>您可以选择第二个<a href="#%E9%80%89%E9%A1%B9">选项</a>，打开一个文件夹，这和vscode有些相似。您也可以选择第一个<a href="#%E9%80%89%E9%A1%B9">选项</a>新建一个项目。在这里，笔者将展示创建项目。</p>
-<p><img src="img/pyc_newproj_1.png" alt="pyc_newproj_1">
-<img src="img/pyc_newproj_2.png" alt="pyc_newproj_2"></p>
-<p>选好<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>后点击create。进入后您将大致看到这样的界面。</p>
-<p><img src="img/pyc_tips.png" alt="pyc_tips"></p>
-<p>您可以在项目中新建一个脚本文件。笔者在此使用的脚本代码和vscode中的示例一样。</p>
-<p><img src="img/pyc_newfile.png" alt="pyc_newfile">
-<img src="img/pyc_dbgdemo_1.png" alt="pyc_dbgdemo"></p>
-<p>如果您在创建项目的时候选择了虚拟环境（如果您没有看上述教程，而是按照默认创建了项目，则会有一个虚拟环境），您可以在设置中修改项目的<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>：</p>
-<p><img src="img/pyc_opensettings.png" alt="pyc_opensettings">
-<img src="img/pyc_settings_projinterpreter.png" alt="pyc_settings_projinterpreter"></p>
-<p>您可以通过两种主要的方式运行您的脚本：</p>
-<ol>
-<li>运行当前脚本</li>
-<li>配置运行<a href="#%E9%80%89%E9%A1%B9">选项</a>，运行特定脚本</li>
-</ol>
-<p>要运行当前脚本，您可以右键单击脚本的空白处，然后选择Run。</p>
-<p><img src="img/pyc_dbgdemo_run.png" alt="pyc_dbgdemo_run"></p>
-<p>您将看到这样的结果：</p>
-<p><img src="img/pyc_run.png" alt="pyc_run"></p>
-<p>通过以上方法运行过一次以后，pycharm将会为您生成一个运行配置。您可以使用这个配置，点击左上角的绿色小三角形运行。</p>
-<p>下面笔者将介绍如何手动配置运行配置。</p>
-<p><img src="img/pyc_addconfig.png" alt="pyc_addconfig">
-<img src="img/pyc_runconfig.png" alt="pyc_runconfig"></p>
-<p>配置完毕后，您可以选择需要的配置，然后点击右上角的绿色小三角形运行。</p>
-<p><a href="#pycharm">Pycharm</a>的调试功能，笔者也用一张图简单概括，仅介绍界面。有关调试的一些概念详见vscode的调试部分。</p>
-<p><img src="img/pyc_dbgdemo_2.png" alt="pyc_dbgdemo_2"></p>
-<p>至此，您已经阅读完本文的内容。</p>
-<p><em>Enjoy!</em></p>
+    <p><img src="img/vscode_dbg_breakpoint.png" alt="vscode_dbg_breakpoint"></p>
+    <p>接下来按F5</p>
+    <p><img src="img/vscode_dbg_pause.png" alt="vscode_dbg_pause">
+        <img src="img/vscode_dbg_nextstep.png" alt="vscode_dbg_nextstep"></p>
+    <p>您也许会想到：不打断点的调试，其实就和直接运行差不多。确实如此。但是调试需要建立和vscode的连接，因此会比直接运行慢一点。您可以在<a href="#%E7%BB%88%E7%AB%AF">终端</a>中执行<a
+            href="#%E6%8C%87%E4%BB%A4">指令</a>运行您的脚本，也可以借助code-runner插件，来直接运行您的脚本。</p>
+    <p>以上是对vscode写python的简单介绍，您可以自行探索其他功能，例如代码补全、代码格式化、快捷代码重构操作、文本搜索等。vscode还支持许多其他语言，例如主流的Java、C/C++、Javascript、HTML、C#等等。您只需安装相应的语言支持插件，就能够在vscode中编写他们！
+    </p>
+    <h3 id="pycharm">Pycharm</h3>
+    <p><a href="#pycharm">Pycharm</a>是Jet
+        Brains公司开发的一款python的IDE（集成开发环境）。它功能比较多，也比较专业，但同时也比较笨重、复杂，不适合编程的初学者。如果您正在使用的教程/课程使用的是<a
+            href="#pycharm">Pycharm</a>，您可以参考本文进行配置。</p>
+    <p><a href="#pycharm">Pycharm</a>有社区版（Community）和专业版（Professional），其中社区版是免费的，而专业版是收费的。专业版的功能比社区版的相对多一些。您可以在这里下载它：<a
+            href="https://www.jetbrains.com/pycharm/download/#section=windows">https://www.jetbrains.com/pycharm/download/#section=windows</a>。
+    </p>
+    <p>如果您选择了专业版，您将需要激活，或者免费试用一段时间。如果您是学生，您可以使用学生认证进行激活，并免费使用Pycharm到您毕业为止，可以参考这篇文章：<a
+            href="https://blog.csdn.net/qq_36667170/article/details/79905198">https://blog.csdn.net/qq_36667170/article/details/79905198</a>。如果您不是学生，又希望使用专业版，请考虑购买许可。<strong>如果您尝试使用破解版，并对Jet
+            Brains公司造成了损失而被追究责任，笔者概不负责</strong>。</p>
+    <p>本教程将演示如何使用社区版。</p>
+    <p>安装<a href="#%E9%80%89%E9%A1%B9">选项</a>您可以根据个人需要进行变更。安装完毕后打开，您将看到这样的界面：</p>
+    <p><img src="img/pyc_start.png" alt="pyc_start"></p>
+    <p>您可以选择第二个<a href="#%E9%80%89%E9%A1%B9">选项</a>，打开一个文件夹，这和vscode有些相似。您也可以选择第一个<a
+            href="#%E9%80%89%E9%A1%B9">选项</a>新建一个项目。在这里，笔者将展示创建项目。</p>
+    <p><img src="img/pyc_newproj_1.png" alt="pyc_newproj_1">
+        <img src="img/pyc_newproj_2.png" alt="pyc_newproj_2"></p>
+    <p>选好<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>后点击create。进入后您将大致看到这样的界面。</p>
+    <p><img src="img/pyc_tips.png" alt="pyc_tips"></p>
+    <p>您可以在项目中新建一个脚本文件。笔者在此使用的脚本代码和vscode中的示例一样。</p>
+    <p><img src="img/pyc_newfile.png" alt="pyc_newfile">
+        <img src="img/pyc_dbgdemo_1.png" alt="pyc_dbgdemo"></p>
+    <p>如果您在创建项目的时候选择了虚拟环境（如果您没有看上述教程，而是按照默认创建了项目，则会有一个虚拟环境），您可以在设置中修改项目的<a href="#%E8%A7%A3%E9%87%8A%E5%99%A8">解释器</a>：
+    </p>
+    <p><img src="img/pyc_opensettings.png" alt="pyc_opensettings">
+        <img src="img/pyc_settings_projinterpreter.png" alt="pyc_settings_projinterpreter"></p>
+    <p>您可以通过两种主要的方式运行您的脚本：</p>
+    <ol>
+        <li>运行当前脚本</li>
+        <li>配置运行<a href="#%E9%80%89%E9%A1%B9">选项</a>，运行特定脚本</li>
+    </ol>
+    <p>要运行当前脚本，您可以右键单击脚本的空白处，然后选择Run。</p>
+    <p><img src="img/pyc_dbgdemo_run.png" alt="pyc_dbgdemo_run"></p>
+    <p>您将看到这样的结果：</p>
+    <p><img src="img/pyc_run.png" alt="pyc_run"></p>
+    <p>通过以上方法运行过一次以后，pycharm将会为您生成一个运行配置。您可以使用这个配置，点击左上角的绿色小三角形运行。</p>
+    <p>下面笔者将介绍如何手动配置运行配置。</p>
+    <p><img src="img/pyc_addconfig.png" alt="pyc_addconfig">
+        <img src="img/pyc_runconfig.png" alt="pyc_runconfig"></p>
+    <p>配置完毕后，您可以选择需要的配置，然后点击右上角的绿色小三角形运行。</p>
+    <p><a href="#pycharm">Pycharm</a>的调试功能，笔者也用一张图简单概括，仅介绍界面。有关调试的一些概念详见vscode的调试部分。</p>
+    <p><img src="img/pyc_dbgdemo_2.png" alt="pyc_dbgdemo_2"></p>
+    <p>至此，您已经阅读完本文的内容。</p>
+    <p><em>Enjoy!</em></p>
 
 </body>
