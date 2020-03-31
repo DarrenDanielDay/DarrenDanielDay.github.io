@@ -11,7 +11,7 @@
         var count = 0
         $(document).ready(function () {
             $('.my-button').click(function () {
-                var result = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 6) + 1)
+                var result = (Math.floor(Math.random() * 13) - 6)
                 count++
                 total += result
                 $('#roll-result').text('你肉到了' + result + '点')
