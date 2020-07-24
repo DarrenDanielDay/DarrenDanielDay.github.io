@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Cube</title>
+    <style>
+        #app {
+            font-family: Avenir, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-align: center;
+            color: #2c3e50;
+            margin-top: 60px;
+        }
+
+        #cvs {
+            border: black 1px solid;
+        }
+    </style>
+    <script>
+        /**
+ * 零向量
+ */
+        var ZERO = { x: 0, y: 0, z: 0 };
+        /**
+         * 构造一个点，根据参数个数（2/3）决定维度
+         * @param x x坐标
+         * @param y y坐标
+         * @param z z坐标
+         */
+        function Point(x, y, z) {
+            var result = { x: x, y: y };
+            if (z !== undefined) {
+                result.z = z;
+            }
+            return result;
+        }
+        /**
+         * 判断是否为3维向量
+         * @param vector 向量
+         */
+        function is3D(vector) {
+            return !!vector && typeof vector.z !== "undefined";
+        }
+        /**
+         * 判断是否为0向量
+         * @param vector 向量
+         */
+        function isZero(vector) {
+            return (vector === ZERO ||
+                (vector.x === 0 && vector.y === 0 && (!is3D(vector) || vector.z === 0)));
+        }
+        /**
+         * 复制一个向量
+         * @param vector 向量
+         */
+        function cloneOf(vector) {
+            return Object.assign({}, vector);
+        }
+        /**
+         * 转换成数组
+         * @param vector 向量
+         */
+        function toArray(vector) {
+            var result = [vector.x, vector.y];
+            if (is3D(vector)) {
+                result.push(vector.z);
+            }
+            return result;
+        }
+        /**
+         * 字符串显示
+         * @param vector 向量
+         */
+        function toPrettyString(vector) {
+            var s = "x: " + vector.x.toFixed(8) + " y: " + vector.y.toFixed(8);
+            if (is3D(vector)) {
+                s += " z: " + vector.z.toFixed(8);
+            }
+            return s;
+        }
+        /**
+         * 3阶矩阵转换成一组空间基
+         * @param matrix 矩阵
+         */
+        function basis3DFromMatrix(matrix) {
+            return {
+                xBasis: Point.apply(void 0, matrix[0]),
+                yBasis: Point.apply(void 0, matrix[1]),
+                zBasis: Point.apply(void 0, matrix[2])
+            };
+        }
+        /**
+         * 空间基转换成3阶矩阵
+         * @param basis 基
+         */
+        function matrixOfBasis3D(basis) {
+            return [toArray(basis.xBasis), toArray(basis.yBasis), toArray(basis.zBasis)];
+        }
+        /**
+         * 数量积
+         * @param a 向量a
+         * @param b 向量b
+         */
+        function dotOf(a, b) {
+            if (is3D(a) && is3D(b)) {
+                return a.x * b.x + a.y * b.y + a.z * b.z;
+            }
+            return a.x * b.x + a.y * b.y;
+        }
+        /**
+         * 模长
+         * @param vector 向量
+         */
+        function radiusOf(vector) {
+            return Math.sqrt(dotOf(vector, vector));
+        }
+        /**
+         * 向量数乘，自乘
+         * @param vector 向量
+         * @param coefficient 系数
+         */
+        function multiplyOn(vector, coefficient) {
+            vector.x *= coefficient;
+            vector.y *= coefficient;
+            if (is3D(vector)) {
+                vector.z *= coefficient;
+            }
+            return vector;
+        }
+        /**
+         * 向量加法，自加
+         * @param vector 原向量
+         * @param append 增量
+         */
+        function addOn(vector, append) {
+            vector.x += append.x || 0;
+            vector.y += append.y || 0;
+            if (is3D(vector)) {
+                vector.z += append.z || 0;
+            }
+            return vector;
+        }
+        /**
+         * 向量减法，自减
+         * @param vector 向量
+         * @param append 减量
+         */
+        function substractOn(vector, append) {
+            vector.x -= append.x;
+            vector.y -= append.y;
+            if (is3D(vector) && is3D(append)) {
+                vector.z -= append.z;
+            }
+            return vector;
+        }
+        /**
+         * 单位化
+         * @param vector 向量
+         */
+        function unitization(vector) {
+            var radius = radiusOf(vector);
+            var result = {
+                x: vector.x / radius,
+                y: vector.y / radius
+            };
+            if (is3D(vector)) {
+                result.z = vector.z / radius;
+            }
+            return result;
+        }
+        /**
+         * 正交分解到指定轴上，返回系数
+         * @param vector 向量
+         * @param axis 轴向量
+         */
+        function decomposeOnAxis(vector, axis) {
+            return dotOf(vector, axis) / dotOf(axis, axis);
+        }
+        /**
+         * 向量分解，返回分解坐标
+         * @param vector 向量
+         * @param basis 轴向量
+         */
+        function decomposition(vector, basis) {
+            var x = vector;
+            var result = {
+                x: decomposeOnAxis(vector, basis.xBasis),
+                y: decomposeOnAxis(vector, basis.yBasis)
+            };
+            if (is3D(vector)) {
+                result.z = decomposeOnAxis(vector, basis.zBasis);
+            }
+            return result;
+        }
+        /**
+         * 向量在轴上的投影（带符号）
+         * @param vector 向量
+         * @param axis 轴向量
+         */
+        function projection(vector, axis) {
+            return dotOf(vector, axis) / radiusOf(axis);
+        }
+        /**
+         * 给出用基basis和系数vector线性表示的向量
+         * @param vector 向量
+         * @param basis 基
+         */
+        function representationOf(vector, basis) {
+            var x = multiplyOn(cloneOf(basis.xBasis), vector.x);
+            var y = multiplyOn(cloneOf(basis.yBasis), vector.y);
+            var result = addOn(x, y);
+            if (is3D(vector)) {
+                var z = multiplyOn(cloneOf(basis.zBasis), vector.z);
+                addOn(x, z);
+            }
+            return result;
+        }
+        /**
+         * 矩阵乘法
+         * @param a a矩阵
+         * @param b b矩阵
+         */
+        function matrixMultiplication(a, b) {
+            var result = [];
+            var n = a.length;
+            var m = b[0].length;
+            for (var i = 0; i < n; i++) {
+                result[i] = [];
+                for (var j = 0; j < m; j++) {
+                    result[i][j] = 0;
+                    for (var k = 0; k < a[i].length; k++) {
+                        result[i][j] += a[i][k] * b[k][j];
+                    }
+                }
+            }
+            return result;
+        }
+        /**
+         * 向量外积（叉积）
+         * @param a 3维向量a
+         * @param b 3维向量b
+         */
+        function crossProductOf(a, b) {
+            return {
+                x: a.y * b.z - b.y * a.z,
+                y: a.z * b.x - a.x * b.z,
+                z: a.x * b.y - a.y * b.x
+            };
+        }
+        /**
+         * 向量旋转
+         * @param basis 基
+         * @param rotation 旋转向量
+         */
+        function rotateBasis3D(basis, rotation) {
+            return basis3DFromMatrix(matrixMultiplication(matrixOfBasis3D(basis), matrixOfBasis3D(rotation)));
+        }
+        /**
+         * 将点投影到投影平面后，点在平面内的坐标
+         * @param point 点
+         * @param plane 投影平面
+         */
+        function planeProjection(point, plane) {
+            return {
+                x: projection(substractOn(cloneOf(point), plane.origin), plane.xBasis),
+                y: projection(substractOn(cloneOf(point), plane.origin), plane.yBasis)
+            };
+        }
+        /**
+         * 计算屏幕（视觉平面）在参考坐标系中对应的投影平面
+         * @param c 参考坐标系
+         */
+        function visualPlaneOf(c) {
+            return {
+                origin: decomposition(substractOn(cloneOf(ZERO), c.origin), c.basis),
+                xBasis: decomposition({ x: 1, y: 0, z: 0 }, c.basis),
+                yBasis: decomposition({ x: 0, y: 1, z: 0 }, c.basis)
+            };
+        }
+        /**
+         * 计算屏幕上的位置在参考坐标系中的坐标（屏幕所处平面以visualPlane计算）
+         * @param c 参考坐标系
+         * @param position 屏幕上相对原点的位置
+         */
+        function screenPositionOf(c, position) {
+            var plane = visualPlaneOf(c);
+            var x = position.x, y = position.y;
+            return addOn(addOn(multiplyOn(unitization(plane.xBasis), x), multiplyOn(unitization(plane.yBasis), y)), plane.origin);
+        }
+        /**
+         * 将3维线段投影到投影平面，得到二维线段
+         * @param line 线段
+         * @param plane 平面
+         */
+        function projectLine(line, plane) {
+            return {
+                start: planeProjection(line.start, plane),
+                end: planeProjection(line.end, plane)
+            };
+        }
+        function drawLine(line, context, style) {
+            context.save();
+            if (style !== undefined) {
+                context.strokeStyle = style;
+            }
+            context.beginPath();
+            context.moveTo(Math.round(line.start.x), Math.round(line.start.y));
+            context.lineTo(Math.round(line.end.x), Math.round(line.end.y));
+            context.closePath();
+            context.stroke();
+            context.restore();
+        }
+        var TestCuboid = /** @class */ (function () {
+            function TestCuboid(a, b, c, coor) {
+                this.a = a;
+                this.b = b;
+                this.c = c;
+                this.coor = coor;
+            }
+            TestCuboid.prototype.draw = function (context) {
+                var plane = visualPlaneOf(this.coor);
+                for (var _i = 0, _a = this.lines(); _i < _a.length; _i++) {
+                    var line = _a[_i];
+                    drawLine(projectLine(line, plane), context, line.style);
+                }
+                context.beginPath();
+                var origin = planeProjection(ZERO, plane);
+                context.arc(origin.x, origin.y, 1, 0, 2 * Math.PI);
+                context.stroke();
+            };
+            TestCuboid.prototype.lines = function () {
+                var _a = this, a = _a.a, b = _a.b, c = _a.c;
+                var p0 = Point(-a, -b, -c);
+                var p1 = Point(a, -b, -c);
+                var p2 = Point(a, b, -c);
+                var p3 = Point(-a, b, -c);
+                var p4 = Point(-a, -b, c);
+                var p5 = Point(a, -b, c);
+                var p6 = Point(a, b, c);
+                var p7 = Point(-a, b, c);
+                return [
+                    {
+                        start: p0,
+                        end: p1,
+                        style: 'red'
+                    },
+                    {
+                        start: p1,
+                        end: p2,
+                        style: 'green'
+                    },
+                    {
+                        start: p2,
+                        end: p3,
+                        style: 'red'
+                    },
+                    {
+                        start: p3,
+                        end: p0,
+                        style: 'blue'
+                    },
+                    {
+                        start: p0,
+                        end: p4,
+                        style: 'blue'
+                    },
+                    {
+                        start: p1,
+                        end: p5,
+                        style: 'green'
+                    },
+                    {
+                        start: p2,
+                        end: p6,
+                        style: 'green'
+                    },
+                    {
+                        start: p3,
+                        end: p7,
+                        style: 'blue'
+                    },
+                    {
+                        start: p4,
+                        end: p5,
+                        style: 'red'
+                    },
+                    {
+                        start: p5,
+                        end: p6,
+                        style: 'green'
+                    },
+                    {
+                        start: p6,
+                        end: p7,
+                        style: 'red'
+                    },
+                    {
+                        start: p7,
+                        end: p4,
+                        style: 'blue'
+                    },
+                    {
+                        start: ZERO,
+                        end: Point(a, 0, 0)
+                    },
+                ];
+            };
+            return TestCuboid;
+        }());
+        var r2 = Math.sqrt(2);
+        var r3 = Math.sqrt(3);
+        var r6 = Math.sqrt(6);
+        var stdBasis = {
+            xBasis: {
+                x: 1 / r2,
+                y: 1 / r6,
+                z: 1 / r3
+            },
+            yBasis: {
+                x: -1 / r2,
+                y: 1 / r6,
+                z: 1 / r3
+            },
+            zBasis: {
+                x: 0,
+                y: -r2 / r3,
+                z: 1 / r3
+            }
+        };
+        var coordinateSystem = {
+            origin: {
+                x: 200,
+                y: 150,
+                z: -100
+            },
+            basis: stdBasis
+        };
+        var App = /** @class */ (function () {
+            function App() {
+            }
+            App.prototype.mounted = function () {
+                var _this = this;
+                this.canvas = document.getElementById("cvs");
+                this.context2d = this.canvas.getContext("2d");
+                this.draw();
+                this.canvas.addEventListener("mousemove", function (e) {
+                    console.log("mousemove", e.offsetX, e.offsetY);
+                    _this.clear();
+                    var x = e.offsetX;
+                    var y = e.offsetY;
+                    var ray = screenPositionOf({
+                        origin: coordinateSystem.origin,
+                        basis: stdBasis
+                    }, { x: x, y: y });
+                    document.getElementById("message").innerText = toPrettyString(ray);
+                    document.getElementById("position").innerText = toPrettyString({ x: x, y: y });
+                    var xRay = representationOf(unitization(ray), stdBasis);
+                    var yRay = unitization(crossProductOf(stdBasis.xBasis, xRay));
+                    var zRay = unitization(crossProductOf(yRay, xRay));
+                    coordinateSystem.basis = {
+                        xBasis: xRay,
+                        yBasis: yRay,
+                        zBasis: zRay
+                    };
+                    _this.draw();
+                });
+            };
+            App.prototype.clear = function () {
+                console.log("clear!");
+                this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.context2d.closePath();
+            };
+            App.prototype.draw = function () {
+                console.log("draw!");
+                // TODO
+                var plane = visualPlaneOf(coordinateSystem);
+                new TestCuboid(50, 50, 50, coordinateSystem).draw(this.context2d);
+            };
+            return App;
+        }());
+
+        window.onload = () => {
+            new App().mounted();
+        }
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <div>将鼠标移到框内查看3D立方体</div>
+        <canvas width="400" height="300" id="cvs"></canvas>
+        <div>屏幕所在平面方程：x + y + z = 100√3</div>
+        <div>当前鼠标三维坐标</div>
+        <div id="message"></div>
+        <div>当前鼠标二维坐标</div>
+        <div id="position"></div>
+        <div id="plane"></div>
+    </div>
+</body>
+
+</html>
