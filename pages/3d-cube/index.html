@@ -447,7 +447,6 @@
                 this.context2d = this.canvas.getContext("2d");
                 this.draw();
                 this.canvas.addEventListener("mousemove", function (e) {
-                    console.log("mousemove", e.offsetX, e.offsetY);
                     _this.clear();
                     var x = e.offsetX;
                     var y = e.offsetY;
@@ -469,13 +468,10 @@
                 });
             };
             App.prototype.clear = function () {
-                console.log("clear!");
                 this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 this.context2d.closePath();
             };
             App.prototype.draw = function () {
-                console.log("draw!");
-                // TODO
                 var plane = visualPlaneOf(coordinateSystem);
                 new TestCuboid(50, 50, 50, coordinateSystem).draw(this.context2d);
             };
