@@ -1,5 +1,5 @@
 import { r as react } from '../common/index-c277be94.js';
-import { p as createSvgIcon } from '../common/createSvgIcon-b393d268.js';
+import { A as createSvgIcon } from '../common/createSvgIcon-b3dd6bca.js';
 import '../common/_commonjsHelpers-eb5a497e.js';
 
 var ArrowDownwardOutlined = createSvgIcon( /*#__PURE__*/react.createElement("path", {
