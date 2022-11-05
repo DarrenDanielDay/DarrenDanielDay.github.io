@@ -184,7 +184,7 @@ const repo = (name: string) => {
     animation-fill-mode: both;
   }
   $played: $played + 1s;
-  @for $i from 1 through 10 {
+  @for $i from 1 through 20 {
     .link-card-grid > :global(li):nth-child(0n + #{$i}) {
       @if $i % 2 == 1 {
         animation-name: slidein-left;
