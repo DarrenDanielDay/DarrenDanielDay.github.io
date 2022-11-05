@@ -4,6 +4,9 @@ import Card from "../components/Card.astro";
 import type { MyFrontMatter } from "../scripts/util";
 import Footer from "../components/Footer.astro";
 const posts = await Astro.glob<MyFrontMatter>("./posts/*/index.mdx");
+const repo = (name: string) => {
+  return `https://github.com/DarrenDanielDay/${name}`;
+};
 ---
 
 <Page title="Darren Daniel Day's personal index">
@@ -27,6 +30,48 @@ const posts = await Astro.glob<MyFrontMatter>("./posts/*/index.mdx");
             <Card href={post.url ?? "/"} body={post.frontmatter.description} title={post.frontmatter.title} />
           ))
       }
+      <Card
+        href="/Libra"
+        title="Libra - 一个称次品问题的求解模型"
+        body="12 个乒乓球，有一个次品，不知轻重，用一台无砝码天平称三次，找出次品，告知轻重？"
+      />
+      <Card
+        href="/es-modularize"
+        title="es-modularize - 将npm包在浏览器内加载为esmodule"
+        body="用了它以后，Angular项目都只剩下30KB了！"
+      />
+      <Card href="/gizmo-ball-react" title="Gizmo Ball - 一个简单的2D物理弹球游戏" body="见过200行的纯函数吗？" />
+      <Card
+        href={repo("func-di")}
+        title="func-di - 一个函数式依赖注入库"
+        body="零依赖，没有class，没有装饰器，不可变，类型安全。"
+      />
+      <Card
+        href={repo("script-plus")}
+        title="script-plus - 一个vscode的脚本运行插件"
+        body="用过vscode版的Tampermonkey吗？"
+      />
+      <Card
+        href={repo("css-module-types-and-map")}
+        title="css-module-types-and-map - 一个vscode的css module插件"
+        body="为css module生成TypeScript类型定义，但是居然能跳转到样式代码？"
+      />
+      <Card href="/life-game" title="Life Game - 计算机科学经典的自动机" body="但是这一回，用React来写！" />
+      <Card
+        href="/china-address-search"
+        title="china-address-search - 一个地址模糊搜索算法"
+        body="虽然算法很暴力，但是有用"
+      />
+      <Card
+        href={repo("leetcode-typescript-workspace")}
+        title="leetcode-typescript-workspace - 前端力扣刷题神器"
+        body="自从用了这个，用TypeScript刷力扣再也不用提交到在线去debug了！"
+      />
+      <Card
+        href={repo("typescript-programming-redefined")}
+        title="typescript-programming-redefined - TypeScript进阶"
+        body="TypeScript进阶与类型体操，看这一篇就够了！"
+      />
     </ul>
   </main>
   <Footer />
@@ -60,12 +105,10 @@ const posts = await Astro.glob<MyFrontMatter>("./posts/*/index.mdx");
     margin: auto;
     padding: 0 2em;
     max-width: 60ch;
-    overflow: hidden;
-    // flex-grow: 1;
   }
   .link-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    grid-template-columns: 1fr;
     gap: 1rem;
     padding: 0;
   }
