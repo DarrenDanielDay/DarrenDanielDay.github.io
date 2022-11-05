@@ -1,9 +1,8 @@
 ---
 import DarrenDanielDay from "../assets/DarrenDanielDay.jpg";
 import Avatar from "./Avatar.astro";
-const root = Astro.url.origin;
 const path = Astro.url.pathname;
-const fragments = [root].concat(path.split("/").slice(1)).filter((p) => !!p);
+const fragments = ["/"].concat(path.split("/").slice(1)).filter((p) => !!p);
 console.log(fragments);
 ---
 
