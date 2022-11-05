@@ -174,13 +174,43 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v3 # 使用现成的action自动生成commit自动提交
         with:
           build_dir: dist # 前面构建出来的静态文件目录
-          commit_message: "deploy: Deployed by Github Actions" #
+          commit_message: "deploy: Deployed by Github Actions" # 提交信息，可选
           jekyll: false # 禁用jekyll可以防止一些特殊命名的文件无法正常访问
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 必须有，是创建提交的身份凭证
 ```
 
-这里面关键的 action 是[crazy-max/ghaction-github-pages](https://github.com/crazy-max/ghaction-github-pages)。他会把配置的`build_dir`里的内容单独开一个与其他分支隔离的分支`target_branch`，默认是`gh-pages`。
-然后只要向前面那样配置好开启`GitHub Pages`即可。
+这里面关键的 action 是[crazy-max/ghaction-github-pages](https://github.com/crazy-max/ghaction-github-pages)。他会把配置的`build_dir`里的内容单独开一个与其他分支隔离的分支`target_branch`，默认是`gh-pages`，并通过 `GITHUB_TOKEN` 的权限将该分支推送到这个仓库里。 然后只要向前面那样配置好开启 `GitHub Pages`即可。
+
+### 6. 访问你的网站
+
+当你完成了上述工作，如果不出意外，几分钟后你就能在线访问到你的网站，地址是`https://<你的GitHub用户名>.github.io`。
+
+### 7. 更多
+
+或许你会发现，不仅仅是名为`<用户名>.github.io`的仓库存在第四步里的配置，而是所有的仓库都可以配置`GitHub Pages`。
+
+其他名称的仓库配置`GitHub Pages`后，在线可访问的网址是`https://<你的GitHub用户名>.github.io/<该仓库的名称>`。
+
+这样的仓库部署`GitHub Pages`后的网址基路径不是`/`，而是多了一个仓库的名称，属于“项目站点”，比较适合做为你的项目的在线文档/demo。
+
+不过，这个额外的路径会影响到网站资源路径的编写，新手上路容易被坑，因此本文不做过多介绍。详细可以参考文档：
+
+<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites">
+  https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites
+</a>
+
+## 总结
+
+总结一下，最简单的用`GitHub Pages`部署个人网站就几步：
+
+1. 创建仓库`https://github.com/<用户名>/<用户名>.github.io`
+2. 提交、推送网站产物代码
+3. 设置`GitHub Pages`所用分支与文件夹
+4. 等待部署完成
+
+此外可以借助`GitHub Actions`做自动打包项目，外加推送只有网站部署所需产物的相对干净的分支。
 
 好了，让我看看我这篇文章发出来长什么样子。
+
+<a href="https://darrendanielday.github.io/posts/github-pages-tutorial">github-pages-tutorial</a>
