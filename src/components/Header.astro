@@ -1,5 +1,5 @@
 ---
-import DarrenDanielDay from "../assets/DarrenDanielDay.jpg";
+import { assets } from "../scripts/util";
 import Avatar from "./Avatar.astro";
 const path = Astro.url.pathname;
 const fragments = [""].concat(
@@ -22,7 +22,7 @@ const fragments = [""].concat(
             >
               {i === 0 ? (
                 <Avatar
-                  url={DarrenDanielDay}
+                  url={assets("DarrenDanielDay.jpg")}
                   alt="DarrenDanielDay.jpg"
                   style="height: 2em; transform: translateY(0.6em)"
                 />
