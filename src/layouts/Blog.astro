@@ -1,9 +1,7 @@
 ---
-import Footer from "../components/Footer.astro";
-import Header from "../components/Header.astro";
 import type { MyFrontMatter } from "../scripts/util";
-import Page from "./Page.astro";
-
+import "github-markdown-css/github-markdown.css";
+import Classic from "./Classic.astro";
 export interface Props {
   frontmatter: MyFrontMatter;
 }
@@ -11,15 +9,12 @@ export interface Props {
 const { frontmatter } = Astro.props;
 ---
 
-<Page {...frontmatter}>
-  <Header />
+<Classic {...frontmatter}>
   <article class="markdown-body">
     <slot />
   </article>
-  <Footer />
-</Page>
-<style lang="scss" is:global>
-  @import "github-markdown-css/github-markdown.css";
+</Classic>
+<style lang="scss">
   .markdown-body {
     margin: 1em 2em;
     padding: 1em 2em;

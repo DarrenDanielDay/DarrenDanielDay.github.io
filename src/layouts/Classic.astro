@@ -1,0 +1,16 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Page, {  Props as PageProps } from "./Page.astro";
+export interface Props extends PageProps {
+}
+
+---
+
+<Page {...Astro.props}>
+  <Header />
+  <main>
+    <slot></slot>
+  </main>
+  <Footer />
+</Page>
