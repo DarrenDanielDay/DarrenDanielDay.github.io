@@ -1,0 +1,18 @@
+---
+export interface Props extends astroHTML.JSX.HTMLAttributes {
+  path: string;
+}
+const { path: rawPath, class: classes, ...props } = Astro.props;
+const path = `url(/assets/${rawPath})`;
+---
+
+<span class:list={["icon-root", classes]} {...props}></span>
+
+<style lang="scss" define:vars={{ path }}>
+  .icon-root {
+    display: inline-block;
+    background-image: var(--path);
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+</style>

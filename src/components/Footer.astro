@@ -1,10 +1,6 @@
 ---
-import { query } from "../scripts/util";
+import AssetsIcon from "./AssetsIcon.astro";
 const currentYear = new Date().getFullYear();
-const { assets } = query(Astro);
-const github = await assets("logos/github.svg").text();
-const facebook = await assets("logos/facebook.svg").text();
-const twitter = await assets("logos/twitter.svg").text();
 ---
 
 <footer>
@@ -12,32 +8,28 @@ const twitter = await assets("logos/twitter.svg").text();
     &copy; {currentYear} DarrenDanielDay. All rights reserved.
   </p>
   <p>
-    <a
-      href="https://github.com/DarrenDanielDay"
-      target="_blank"
-      title="Darren Daniel Day's github index"
-      set:html={github}
-    >
+    <a href="https://github.com/DarrenDanielDay" target="_blank" title="Darren Daniel Day's github index">
+      <AssetsIcon path="logos/github.svg" />
     </a>
-    <a
-      href="https://twitter.com/DarrenDanielDay"
-      target="_blank"
-      title="Darren Daniel Day's twitter index"
-      set:html={twitter}
-    >
+    <a href="https://twitter.com/DarrenDanielDay" target="_blank" title="Darren Daniel Day's twitter index">
+      <AssetsIcon path="logos/twitter.svg" />
     </a>
     <a
       href="https://www.facebook.com/people/Darren-Daniel-Day/100085674364454/"
       target="_blank"
       title="Darren Daniel Day's facebook index"
-      set:html={facebook}
     >
+      <AssetsIcon path="logos/facebook.svg" />
     </a>
   </p>
   <p class="support">
     Powered by <a href="https://astro.build" title="astro" target="_blank">
-      <img src="/assets/logos/astro-logo-light.svg" class="light" alt="astro-logo-light.svg" />
-      <img src="/assets/logos/astro-logo-light.svg" class="dark" alt="astro-logo-dark.svg" />
+      <span class="light">
+        <AssetsIcon path="logos/astro-logo-light.svg" />
+      </span>
+      <span class="dark">
+        <AssetsIcon path="logos/astro-logo-dark.svg" />
+      </span>
     </a>
   </p>
 </footer>
@@ -57,19 +49,20 @@ const twitter = await assets("logos/twitter.svg").text();
       align-items: center;
       &.support {
         gap: 0.5em;
-        justify-self: flex-end;
+        :global(.icon-root) {
+          height: 1.5em;
+          width: 4em;
+          transform: translateY(0.35em);
+        }
       }
     }
     a {
       margin: 0 0.5em;
-      :global(svg) {
+      text-decoration: none;
+      :global(.icon-root) {
+        height: 2em;
         width: 2em;
       }
-    }
-    img {
-      height: 1em;
-      width: fit-content;
-      transform: translateY(0.25em);
     }
   }
 </style>
