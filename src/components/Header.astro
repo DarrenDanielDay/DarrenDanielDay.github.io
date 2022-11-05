@@ -24,7 +24,7 @@ const fragments = [""].concat(
                 <Avatar
                   url={assets("DarrenDanielDay.jpg")}
                   alt="DarrenDanielDay.jpg"
-                  style="height: 2em; transform: translateY(0.6em)"
+                  style="height: 2em;display: inline-block;"
                 />
               ) : (
                 fragment
@@ -40,20 +40,26 @@ const fragments = [""].concat(
 <style lang="scss">
   header {
     position: sticky;
+    top: 0;
+    background: #fff;
     border-bottom: 0.05em rgba(15, 23, 42, 0.3) solid;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     nav {
       padding: 0 2em;
       margin: 0;
       display: inline-flex;
-      align-items: baseline;
+      align-items: center;
       ol {
         list-style-type: none;
         padding-left: 0;
         display: inline-flex;
-        align-items: baseline;
+        align-items: center;
         li {
-          align-items: baseline;
+          display: inline-flex;
+          align-items: center;
           a {
+            display: inline-flex;
+            align-items: center;
             font-weight: 600;
             text-decoration: none;
             &:not(.current) {
