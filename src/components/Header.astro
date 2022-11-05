@@ -2,7 +2,12 @@
 import DarrenDanielDay from "../assets/DarrenDanielDay.jpg";
 import Avatar from "./Avatar.astro";
 const path = Astro.url.pathname;
-const fragments = [""].concat(path.split("/").slice(1).filter((p) => !!p));
+const fragments = [""].concat(
+  path
+    .split("/")
+    .slice(1)
+    .filter((p) => !!p)
+);
 ---
 
 <header>
@@ -11,7 +16,10 @@ const fragments = [""].concat(path.split("/").slice(1).filter((p) => !!p));
       {
         fragments.map((fragment, i) => (
           <li>
-            <a href={fragments.slice(0, i + 1).join("/")} class:list={i === fragments.length - 1 ? "current" : []}>
+            <a
+              href={fragments.slice(0, i + 1).join("/") || "/"}
+              class:list={i === fragments.length - 1 ? "current" : []}
+            >
               {i === 0 ? (
                 <Avatar
                   url={DarrenDanielDay}
