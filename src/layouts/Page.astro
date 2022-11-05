@@ -1,0 +1,29 @@
+---
+import type { MyFrontMatter } from "../scripts/util";
+
+export interface Props extends Partial<MyFrontMatter> {
+  title: string;
+}
+
+const { title, author = "Darren Daniel Day", description = "Darren Daniel Day's personal index.", tags } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    {tags && <meta name="keywords" content={tags.toString()} />}
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <style lang="scss" is:global>
+      @import "../styles/global.scss";
+    </style>
+  </body>
+</html>

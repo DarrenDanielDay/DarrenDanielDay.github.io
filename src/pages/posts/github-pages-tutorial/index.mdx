@@ -1,0 +1,186 @@
+---
+layout: "../../../layouts/Blog.astro"
+title: "GitHub Pages & GitHub Actions 免费搭建个人网站"
+pubDate: 2022-11-03
+description: "GitHub Pages & GitHub Actions搭建个人网站教程"
+author: "Darren Daniel Day"
+tags: ["tutorial", "GitHub Pages", "Astro"]
+---
+
+import newRepo from "./new-repo.png";
+import newRepoForm from "./new-repo-form.png";
+import pagesSettings from "./pages-settings.png";
+
+# GitHub Pages & GitHub Actions 免费搭建个人网站
+
+重要的事情先说三遍：
+
+此方案只适用于纯前端网站！
+
+此方案只适用于纯前端网站！
+
+此方案只适用于纯前端网站！
+
+“纯前端”意味着绝大部分的故事都发生在客户端（也就是浏览器）。所有代码/网站资源，诸如`HTML`、`CSS`、`JavaScript`、图片、视频、音频，都将在浏览器内被下载和运行/显示。
+
+简单来说，此方案适合以下场景：
+
+- 个人博客
+- 文档/wiki/攻略
+- 网页单机小游戏
+- 其他使用`JavaScript`/`Web Assembly`或其他语言编写逻辑的任何能在浏览器内运行的程序/界面化工具
+
+如果你的个人网站需要收集并保存一些用户数据（比如，用户注册等），或者需要使用服务端语言执行一些逻辑（比如，使用`Python`做机器学习，尽管在浏览器内运行`Python`是可能的，但是不推荐这样做），那么此方案无法为你提供数据的中心化/持久化以及服务端计算的方案。不过你可以前端使用此方案，而服务端使用另外的方案，例如阿里云/腾讯云的云服务器/云存储/云函数，两者组合起来搭建完整的个人网站。对于一些数据持久化/服务端计算对外存在公开接口的场景，例如你想做某个游戏的攻略网站，并且游戏平台官方存在公开的获取用户数据的接口，也可以单独使用此方案完成前端部分。
+
+## 前提知识
+
+以下内容不是本文的重点，但你需要学会他们的基本操作才能顺利地用此方案完成个人网站的初步搭建：
+
+- [`git`](https://git-scm.com/)与一个[`GitHub`](https://github.com)账号
+- 一个顺手的代码编写工具
+- 编写网站的内容
+
+对于上述，本文将使用这些：
+
+- `git bash`命令行，以及作者的[个人账号](https://github.com/DarrenDanielDay)
+- [`Visual Studio Code`](https://code.visualstudio.com)
+- 一个非常快的前端框架[`Astro`](https://astro.build)与[`Node.JS`](https://nodejs.org)工具链
+
+当然，你可以使用其他工具完成这些工作，例如，你也可以使用[`GitHub Desktop`](https://desktop.github.com/)完成`git`操作，使用[`Angular`](https://angular.io)、[`React`](https://reactjs.org)、[`Svelte`]()、[`Vue`](https://vuejs.org)等前端框架完成网站内容的编写，或者也可以直接用前端老三样`HTML`/`CSS`/`JavaScript`来直接编写网站内容。
+
+## 开始吧
+
+### 0. 创建本地前端项目与编写内容
+
+这里使用`astro`的脚手架进行初始化，交互选项可以自行选择（懒得选就一路回车到底用默认的）。
+
+```sh
+npm create astro@latest
+```
+
+相信有些前端同学看到这个 DNA 就开始动了——脚手架初始化项目，随便什么框架都行，如果不用框架，那就是新建一个文件夹。
+
+文件夹的名字和位置都是任意的。就作者个人习惯而言，为了方便管理，文件夹放在`/GitHub/DarrenDanielDay/DarrenDanielDay.github.io`。后续的命令均在项目根目录下执行。
+
+至于如何进行前端的内容制作，自然不是本文的话题。不过，本文的内容（Markdown）也将通过本文介绍的方法发布到 `GitHub Pages`。
+
+### 1. 创建个人 GitHub 仓库
+
+登录[GitHub](https://github.com)，点击右上角的`+`，选择`new repository`。
+
+<img src={newRepo} alt="new-repo.png" />
+
+在创建仓库时，取名为`<你的GitHub用户名>.github.io`，例如作者的账号，应将仓库命名为`DarrenDanielDay.github.io`。
+
+当然，由于作者已经创建了仓库，所以爆了个红框，不必在意。
+
+<img src={newRepoForm} alt="new-repo-form.png" />
+
+如果你在看这个教程之前已经创建了这个仓库，相信你已经尝试过使用 `GitHub Pages`。在这种情况下，如果不能正常通过`https://<你的GitHub用户名的小写>.github.io`正常访问到你的网页（404），可能的原因是：
+
+- 你将仓库的可见性设置成了`Private`，并且没有付费升级自己的 `GitHub` 账号（4 美元每月），或者其他原因没有开启 `GitHub Pages`
+- 你的仓库部署内容不存在默认定向到主索引的文件，导致网站资源找不到
+
+至于第二点应该怎么做，后文将会介绍。
+
+### 2. 初始化本地 git 仓库和提交代码
+
+现在，你应当有了一个能运行的前端项目，并且准备将其发布到 `GitHub Pages` 上，使得它在线可用。如果你的项目已经有了 `git`` 仓库和一些提交记录，你可以跳过这一步的操作。
+
+```sh
+# 初始化git仓库
+git init
+# 暂存修改
+git add .
+# 提交代码，附加提交信息
+git commit -m "feat(github-pages-tutorial): 添加网站搭建教程"
+# 将当前分支（主分支）从默认的master改名为main，遵循GitHub的新习惯
+git branch -M main
+```
+
+如果你的前端项目代码不能直接作为网站静态资源，而是需要打包构建后才能部署到静态资源服务器（例如，是基于前文提到的某个前端框架写的网站），那么你有三种选择：
+
+1. 本地打包构建好，将打包构建好的代码提交并推送到这个仓库的分支
+2. 使用 `GitHub Actions` 简化上述流程
+3. 使用 `GitHub Actions` 直接部署 `GitHub Pages`（目前此功能仍在 Beta 阶段）
+
+GitHub Actions 稍后再做介绍。如果你对于网站制作也还是刚刚开始，可以先用第一个更简单直观、容易排查原因的方法，让你的网站先在线跑起来。
+对于第一种办法，提交代码不一定得是提交到`main`分支，可以是任意分支。习惯上`GitHub Pages` 用`gh-pages`分支，便于记忆和管理。
+
+### 3. 推送本地 git 仓库到 GitHub
+
+现在，你应当已经有了一些带有前端内容的 `git` 提交记录。
+
+首先执行下面的命令添加远程仓库并推送代码：
+
+```sh
+# 添加一个名为my-site的远程仓库，使用SSH连接
+git remote add my-site git@github.com:<你的GitHub用户名>/<你的GitHub用户名>.github.io
+# 推送main分支的代码到刚添加的my-site的github远程仓库
+git push -u my-site main
+```
+
+有关 SSH 的配置，请自行查阅资料。
+
+### 4. 配置仓库开启 GitHub Pages
+
+现在，你的远程仓库内应当已经有了可用的网站静态资源内容，无论它们是直接编写的，还是通过框架工具链打包构建得到的。
+
+在`<你的GitHub用户名>.github.io`的界面上找到 ⚙`Settings` > `Pages`，选择`Deploy from a branch`，以及要作为 `GitHub Pages` 发布的分支和该分支下的静态资源目录。
+通常来说，静态资源目录下应当存在一个`index.html`或者`index`+其他`HTML`后缀的缩写，这个文件会成为网站的主页内容。一些可能的文件夹名：`dist`、`build`、`www`。
+
+<img src={pagesSettings} alt="pages-settings.png" />
+
+配置完点击`Save`保存，等个一分钟左右就可以通过`https://<你的GitHub用户名的小写>.github.io`访问到你的网站了。
+
+### 5. 配置 GitHub Actions 简化流程
+
+如果你完全通过编写`HTML`/`CSS`/`JavaScript`来完成前端而不需要工具打包构建，那么这样就足够了。对于需要打包构建的场景，可以通过 `GitHub Actions` 来帮你做重复的繁杂的操作，自动化构建+部署。
+
+首先在项目根目录下建一个`.github`文件夹，然后再在里面建一个`workflows`文件夹，最后在里面建一个`.yaml`后缀的配置文件`build.yml`。
+
+然后写入如下配置：
+
+```yml
+name: Demo Build CI
+on: # 触发条件：当main分支被推送时会自动触发这个自动化流程
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Pull Code
+        uses: actions/checkout@v3 # 使用现成的GitHub Actions拉取代码
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3 # 使用现成的GitHub Actions配置`Node.JS`环境
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install Dependencies # 安装依赖
+        run: npm install
+
+      - name: Build Project
+        run: npm run build # 打包项目，换成你的前端项目打包的命令
+
+      - name: Deploy Github Pages
+        uses: crazy-max/ghaction-github-pages@v3 # 使用现成的action自动生成commit自动提交
+        with:
+          build_dir: dist # 前面构建出来的静态文件目录
+          commit_message: "deploy: Deployed by Github Actions" #
+          jekyll: false # 禁用jekyll可以防止一些特殊命名的文件无法正常访问
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 必须有，是创建提交的身份凭证
+```
+
+这里面关键的 action 是[crazy-max/ghaction-github-pages](https://github.com/crazy-max/ghaction-github-pages)。他会把配置的`build_dir`里的内容单独开一个与其他分支隔离的分支`target_branch`，默认是`gh-pages`。
+然后只要向前面那样配置好开启`GitHub Pages`即可。
+
+好了，让我看看我这篇文章发出来长什么样子。

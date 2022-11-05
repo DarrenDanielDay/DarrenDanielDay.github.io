@@ -1,81 +1,156 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Page from "../layouts/Page.astro";
+import Card from "../components/Card.astro";
+import type { MyFrontMatter } from "../scripts/util";
+import Footer from "../components/Footer.astro";
+const posts = await Astro.glob<MyFrontMatter>("./posts/*/index.mdx");
 ---
 
-<Layout title="Welcome to Astro.">
-	<main>
-		<h1>Welcome to <span class="text-gradient">Astro</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
-		</p>
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
-	</main>
-</Layout>
+<Page title="Darren Daniel Day's personal index">
+  <main>
+    <h1>
+      <span class="greet-1">嗨，</span><span class="greet-2 text-gradient">别来无恙啊！</span>
+    </h1>
+    <h2>
+      <span class="greet-3">我们为您准备了一些<span class="text-gradient"> 有趣的内容</span>。</span>
+    </h2>
+    <h3 class="removed">
+      <span class="greet-4">正在获取数据，请勿刷新浏览器。</span><br />
+      <span class="greet-5">精彩即将呈现。</span>
+    </h3>
+    <ul role="list" class="link-card-grid">
+      {
+        posts
+          .sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime())
+          .slice(0, 10)
+          .map((post) => (
+            <Card href={post.url ?? "/"} body={post.frontmatter.description} title={post.frontmatter.title} />
+          ))
+      }
+    </ul>
+  </main>
+  <Footer />
+</Page>
 
-<style>
-	main {
-		margin: auto;
-		padding: 1.5rem;
-		max-width: 60ch;
-	}
-	h1 {
-		font-size: 3rem;
-		font-weight: 800;
-		margin: 0;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		line-height: 1.6;
-		margin: 1rem 0;
-		border: 1px solid rgba(var(--accent), 25%);
-		background-color: white;
-		padding: 1rem;
-		border-radius: 0.4rem;
-	}
-	.instructions code {
-		font-size: 0.875em;
-		font-weight: bold;
-		background: rgba(var(--accent), 12%);
-		color: rgb(var(--accent));
-		border-radius: 4px;
-		padding: 0.3em 0.45em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 1rem;
-		padding: 0;
-	}
+<style lang="scss">
+  @use "sass:list";
+  h1,
+  h2,
+  h3 {
+    > span {
+      display: inline-block;
+    }
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0;
+  }
+  @media screen and (max-width: 480px) {
+    :root {
+      font-size: 10px;
+    }
+  }
+  :global(html, body) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  main {
+    margin: auto;
+    padding: 0 2em;
+    max-width: 60ch;
+    overflow: hidden;
+    // flex-grow: 1;
+  }
+  .link-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+    gap: 1rem;
+    padding: 0;
+  }
+  @keyframes cutin {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes slidein-left {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes slidein-right {
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes appears {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes removed {
+    0% {
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @mixin greet-mixin($start-time, $length) {
+    animation-duration: $length;
+    animation-fill-mode: backwards;
+    animation-delay: $start-time;
+  }
+
+  $greets: [1 1 cutin .7s] [2 0.7s slidein-right 1.3s] [3 1s appears 1.3s] [4 1 appears 1.3s] [5 1 appears 1.3s];
+  $played: 0s;
+
+  @each $id, $delay, $animation, $duration in $greets {
+    .greet-#{$id} {
+      @include greet-mixin($played + $delay, $duration);
+      animation-name: $animation;
+    }
+    $played: $played + $delay + $duration;
+  }
+  .removed {
+    user-select: none;
+    animation-name: removed;
+    animation-delay: $played + 1s;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+  }
+  $played: $played + 1s;
+  @for $i from 1 through 10 {
+    .link-card-grid > :global(li):nth-child(0n + #{$i}) {
+      @if $i % 2 == 1 {
+        animation-name: slidein-left;
+      } @else {
+        animation-name: slidein-right;
+      }
+      animation-duration: 0.7s;
+      animation-delay: $played + $i * 0.25s;
+      animation-fill-mode: both;
+    }
+  }
 </style>

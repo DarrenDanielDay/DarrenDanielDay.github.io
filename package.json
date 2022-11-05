@@ -11,6 +11,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^1.6.0"
+    "@astrojs/mdx": "^0.11.5",
+    "astro": "^1.6.0",
+    "github-markdown-css": "^5.1.0"
+  },
+  "devDependencies": {
+    "sass": "^1.56.0"
   }
 }
