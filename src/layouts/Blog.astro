@@ -19,4 +19,9 @@ const { frontmatter } = Astro.props;
     margin: 1em 2em;
     padding: 1em 2em;
   }
+  :global(img) {
+    width: fit-content;
+    height: fit-content;
+    object-fit: contain;
+  }
 </style>
