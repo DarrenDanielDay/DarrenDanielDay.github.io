@@ -5,15 +5,22 @@
 /* Stiky footers: https://developer.mozilla.org/en-US/docs/Web/CSS/Layout_cookbook/Sticky_footers */
 html {
   font-family: system-ui, sans-serif;
-  background-color: #f6f6f6;
+  font-size: 16px;
+  background-color: var(--bg-back);
+  color: var(--fg-1);
+  width: 100%;
   height: 100%;
 }
-body {
+* {
   padding: 0;
   margin: 0;
+  border: none;
   box-sizing: border-box;
+}
+body {
   display: grid;
   min-height: 100%;
+  min-width: 100%;
   grid-template-rows: auto 1fr auto;
 }
 .text-gradient {
@@ -24,16 +31,30 @@ body {
   background-size: 400%;
   background-position: 0%;
 }
-:root {
+@mixin light() {
   --dark-display: none;
   --light-display: unset;
+  --bg-back: #f6f6f6;
+  --bg-main: #ffffff;
+  --fg-1: #24292f;
+  --fg-2: #57606a;
+}
+@mixin dark() {
+  --dark-display: unset;
+  --light-display: none;
+  --bg-back: #22272e;
+  --bg-main: #2d333b;
+  --fg-1: #c9d1d9;
+  --fg-2: #8b949e;
+}
+:root {
+  /** light theme by default  */
+  @include light();
   @media (prefers-color-scheme: light) {
-    --dark-display: none;
-    --light-display: unset;
+    @include light();
   }
   @media (prefers-color-scheme: dark) {
-    --dark-display: unset;
-    --light-display: none;
+    @include dark();
   }
 }
 .dark {
@@ -41,4 +62,9 @@ body {
 }
 .light {
   display: var(--light-display);
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

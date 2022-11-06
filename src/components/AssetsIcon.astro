@@ -1,18 +1,26 @@
 ---
+import { forwardProps } from "../scripts/util";
+
 export interface Props extends astroHTML.JSX.HTMLAttributes {
   path: string;
+  "data-no-invert"?: boolean;
 }
-const { path: rawPath, class: classes, ...props } = Astro.props;
-const path = `url(/assets/${rawPath})`;
+const { path: rawPath, ...props } = Astro.props;
+const path = rawPath ? `url(/assets/${rawPath})` : null;
 ---
 
-<span class:list={["icon-root", classes]} {...props}></span>
+<span class="icon-root" {...forwardProps(props, path ? {style: `--path: ${path}`} : {})}></span>
 
-<style lang="scss" define:vars={{ path }}>
+<style lang="scss">
   .icon-root {
     display: inline-block;
     background-image: var(--path);
     background-size: contain;
     background-repeat: no-repeat;
+    @media (prefers-color-scheme: dark) {
+      &:not([data-no-invert]) {
+        filter: invert(90%);
+      }
+    }
   }
 </style>

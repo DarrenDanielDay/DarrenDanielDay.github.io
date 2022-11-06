@@ -1,0 +1,19 @@
+---
+import Classic from "../../layouts/Classic.astro";
+import { constants } from "../../scripts/util";
+import About from "../../contents/about.md";
+import "github-markdown-css/github-markdown.css";
+
+---
+
+<Classic title="关于作者" author={constants.DarrenDanielDay} description="作者介绍">
+  <article class="markdown-body">
+    <About />
+  </article>
+</Classic>
+<style lang="scss">
+  .markdown-body {
+    margin: 1em 2em;
+    padding: 1em 2em;
+  }
+</style>

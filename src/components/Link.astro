@@ -1,0 +1,29 @@
+---
+export interface Props extends Omit<astroHTML.JSX.AnchorHTMLAttributes, "slot"> {}
+
+export type { Props as LinkProps };
+---
+
+<a {...Astro.props}>
+  <slot>
+    {Astro.props.title}
+  </slot>
+</a>
+
+<style lang="scss">
+  a {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+    text-decoration: none;
+    color: rgb(var(--accent));
+    &:is(:hover, :focus) {
+      background-image: var(--accent-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 400%;
+      background-position: 0%;
+    }
+  }
+</style>

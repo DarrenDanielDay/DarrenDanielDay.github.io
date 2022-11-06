@@ -1,71 +1,147 @@
 ---
-import { assets } from "../scripts/util";
+import { constants } from "../scripts/util";
+import AssetsIcon from "./AssetsIcon.astro";
 import Avatar from "./Avatar.astro";
+import type { LinkProps } from "./Link.astro";
+import Link from "./Link.astro";
 const path = Astro.url.pathname;
-const fragments = [""].concat(
-  path
-    .split("/")
-    .slice(1)
-    .filter((p) => !!p)
-);
+const fragments = path
+  .split("/")
+  .slice(1)
+  .filter((p) => !!p);
+const validParts = fragments.join("/");
+const fileSubPath = (() => {
+  if (fragments[0] === "posts") {
+    if (fragments.length > 1) {
+      return `${validParts}/index.mdx`;
+    }
+  }
+  return `${validParts}/index.astro`;
+})();
+const links: LinkProps[] = [
+  {
+    title: "关于",
+    href: "/about",
+  },
+];
+const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constants.DarrenDanielDay}.github.io/tree/remake/src/pages/${fileSubPath}`;
 ---
 
 <header>
-  <nav>
+  <div class="sm dropdown-host">
+    <input type="checkbox" class="dropdown-menu-btn nav-item center" title="side menu" />
+    <AssetsIcon
+      path=""
+      style="position: absolute;top: 1em; left: 1em; width: 2em; height: 2em; pointer-events: none;"
+    />
+    <aside class="dropdown-items">
+      <ul>
+        <li>
+          <Link href={`/${fragments.slice(0, fragments.length - 1).join("/")}`} title="返回上层" />
+        </li>
+        {
+          links.map((link) => (
+            <li>
+              <Link {...link} />
+            </li>
+          ))
+        }
+      </ul>
+    </aside>
+  </div>
+  <nav class="normal">
     <ol>
+      <li>
+        <Link href="/">
+          <Avatar />
+        </Link>
+      </li>
       {
         fragments.map((fragment, i) => (
           <li>
-            <a
-              href={fragments.slice(0, i + 1).join("/") || "/"}
-              class:list={i === fragments.length - 1 ? "current" : []}
-            >
-              {i === 0 ? (
-                <Avatar
-                  url={assets("DarrenDanielDay.jpg")}
-                  alt="DarrenDanielDay.jpg"
-                  style="height: 2em;display: inline-block;"
-                />
-              ) : (
-                fragment
-              )}
-            </a>
+            <Link href={`/${fragments.slice(0, i + 1).join("/")}`}>{fragment}</Link>
           </li>
         ))
       }
     </ol>
   </nav>
+  <div class="center">
+    <div class="center normal">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <Link {...link} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="nav-item center">
+      <a href={githubSource} title="在GitHub上查看本页面源码" target="_blank">
+        <AssetsIcon path="logos/github.svg" />
+      </a>
+    </div>
+  </div>
 </header>
 
 <style lang="scss">
+  @import "../styles/utils.scss";
   header {
+    z-index: 1;
     position: sticky;
+    --header-hight: 4em;
     top: 0;
-    background: #fff;
+    background-color: var(--bg-main);
     border-bottom: 0.05em rgba(15, 23, 42, 0.3) solid;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+    ol,
+    ul {
+      list-style-type: none;
+      li::marker {
+        display: none;
+      }
+    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .sm {
+      display: none;
+      @include sm() {
+        display: inline-flex;
+      }
+    }
+    .normal {
+      display: inline-flex;
+      @include sm() {
+        display: none !important;
+      }
+    }
+
+    .nav-item {
+      display: inline-flex;
+      width: var(--header-hight);
+      height: var(--header-hight);
+      :global(.icon-root) {
+        width: 2em;
+        height: 2em;
+      }
+    }
+
     nav {
       padding: 0 2em;
       margin: 0;
       display: inline-flex;
       align-items: center;
+      height: var(--header-hight);
       ol {
-        list-style-type: none;
         padding-left: 0;
         display: inline-flex;
         align-items: center;
         li {
           display: inline-flex;
           align-items: center;
-          a {
-            display: inline-flex;
-            align-items: center;
-            font-weight: 600;
-            text-decoration: none;
-            &:not(.current) {
-              color: rgb(var(--accent));
-            }
-          }
           &:not(:last-child) a::after {
             display: inline-block;
             content: "/";
@@ -74,8 +150,43 @@ const fragments = [""].concat(
         }
       }
     }
-  }
-  li::marker {
-    display: none;
+    .dropdown-host {
+      .dropdown-items {
+        background-color: var(--bg-main);
+        transition: all 0.3s ease;
+        position: absolute;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-100%);
+        width: 100%;
+        li :global(a) {
+          padding: 0 2em;
+          width: 100%;
+          display: inline-flex;
+          align-items: center;
+          height: var(--header-hight);
+        }
+      }
+      :global(.icon-root) {
+        transition: all .3s ease;
+        --path: url("/assets/icons/menu.svg");
+      }
+      .dropdown-menu-btn {
+        font-size: inherit;
+        background-color: transparent;
+        opacity: 0;
+        cursor: pointer;
+        border: none;
+        &:is(:checked) {
+          ~ .dropdown-items {
+            transform: translateY(var(--header-hight));
+            opacity: 1;
+          }
+          ~ :global(.icon-root) {
+            --path: url("/assets/icons/arrow-up.svg");
+          }
+        }
+      }
+    }
   }
 </style>

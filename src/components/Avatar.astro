@@ -1,16 +1,19 @@
 ---
-export interface Props {
-  url: string;
-  alt?: string;
-  style?: string;
+import { assets, forwardProps } from "../scripts/util";
+
+export interface Props extends astroHTML.JSX.ImgHTMLAttributes {
+  url?: string;
 }
-const { url, alt, style } = Astro.props;
+const { url = assets("DarrenDanielDay.jpg"), alt = url.split("/").at(-1), ...others } = Astro.props;
+const rest = forwardProps(others, { class: "avatar" });
 ---
 
-<img src={url} alt={alt} style={style} />
+<img src={url} alt={alt} {...rest} />
 
-<style>
-  img {
+<style lang="scss">
+  img.avatar {
     border-radius: 50%;
+    height: 2em;
+    display: inline-block;
   }
 </style>

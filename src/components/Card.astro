@@ -24,7 +24,7 @@ const { href, title, body } = Astro.props;
 		list-style: none;
 		display: flex;
 		padding: 0.15rem;
-		background-color: white;
+		background-color: var(--bg-main);
 		background-image: var(--accent-gradient);
 		background-size: 400%;
 		border-radius: 0.5rem;
@@ -39,8 +39,8 @@ const { href, title, body } = Astro.props;
 		line-height: 1.4;
 		padding: 1rem 1.3rem;
 		border-radius: 0.35rem;
-		color: #111;
-		background-color: white;
+		color: var(--fg-1);
+		background-color: var(--bg-main);
 		opacity: 0.8;
 	}
 	h2 {
@@ -51,7 +51,7 @@ const { href, title, body } = Astro.props;
 	p {
 		margin-top: 0.5rem;
 		margin-bottom: 0;
-		color: #444;
+		color: var(--fg-2);
 	}
 	.link-card:is(:hover, :focus-within) {
 		background-position: 0;
