@@ -3,6 +3,7 @@ import Page from "../layouts/Page.astro";
 import Card from "../components/Card.astro";
 import type { MyFrontMatter } from "../scripts/util";
 import Footer from "../components/Footer.astro";
+import AssetsIcon from "../components/AssetsIcon.astro";
 const posts = await Astro.glob<MyFrontMatter>("./posts/*/index.mdx");
 const repo = (name: string) => {
   return `https://github.com/DarrenDanielDay/${name}`;
@@ -10,6 +11,8 @@ const repo = (name: string) => {
 ---
 
 <Page title="Darren Daniel Day's personal index">
+  <input id="no-animation" type="checkbox" title="动画选项（加载是假的哈哈）" />
+  <AssetsIcon path=""  />
   <main>
     <h1>
       <span class="greet-1">嗨，</span><span class="greet-2 text-gradient">别来无恙啊！</span>
@@ -74,7 +77,17 @@ const repo = (name: string) => {
       />
     </ul>
   </main>
-  <Footer />
+  <Footer>
+    <span slot="thanks-to">
+      <a href="https://iconscout.com/icons/fast-arrow" target="_blank">Fast arrow Icon</a> by <a
+        href="https://iconscout.com/contributors/anggavisual93"
+        target="_blank">Angga Yudotomo</a
+      >
+      <a href="https://iconscout.com/icons/replay" target="_blank">Replay Icon</a> on <a href="https://iconscout.com"
+        >IconScout</a
+      >
+    </span>
+  </Footer>
 </Page>
 
 <style lang="scss">
@@ -157,35 +170,63 @@ const repo = (name: string) => {
     animation-fill-mode: backwards;
     animation-delay: $start-time;
   }
-
-  $greets: [1 1 cutin .7s] [2 0.7s slidein-right 1.3s] [3 1s appears 1.3s] [4 1 appears 1.3s] [5 1 appears 1.3s];
-  $played: 0s;
-
-  @each $id, $delay, $animation, $duration in $greets {
-    .greet-#{$id} {
-      @include greet-mixin($played + $delay, $duration);
-      animation-name: $animation;
-    }
-    $played: $played + $delay + $duration;
-  }
-  .removed {
-    user-select: none;
-    animation-name: removed;
-    animation-delay: $played + 1s;
-    animation-duration: 3s;
-    animation-fill-mode: both;
-  }
-  $played: $played + 1s;
-  @for $i from 1 through 20 {
-    .link-card-grid > :global(li):nth-child(0n + #{$i}) {
-      @if $i % 2 == 1 {
-        animation-name: slidein-left;
-      } @else {
-        animation-name: slidein-right;
+  @mixin greet-animation() {
+    $greets: [1 1 cutin .7s] [2 0.7s slidein-right 1.3s] [3 1s appears 1.3s] [4 1 appears 1.3s] [5 1 appears 1.3s];
+    $played: 0s;
+    @each $id, $delay, $animation, $duration in $greets {
+      .greet-#{$id} {
+        @include greet-mixin($played + $delay, $duration);
+        animation-name: $animation;
       }
-      animation-duration: 0.7s;
-      animation-delay: $played + $i * 0.25s;
+      $played: $played + $delay + $duration;
+    }
+    .removed {
+      user-select: none;
+      animation-name: removed;
+      animation-delay: $played + 1s;
+      animation-duration: 3s;
       animation-fill-mode: both;
+    }
+    $played: $played + 1s;
+    @for $i from 1 through 20 {
+      .link-card-grid > :global(li):nth-child(0n + #{$i}) {
+        @if $i % 2 == 1 {
+          animation-name: slidein-left;
+        } @else {
+          animation-name: slidein-right;
+        }
+        animation-duration: 0.7s;
+        animation-delay: $played + $i * 0.25s;
+        animation-fill-mode: both;
+      }
+    }
+  }
+  #no-animation {
+    opacity: 0;
+    @mixin no-animation-button() {
+      position: absolute;
+      top: 1em;
+      left: 1em;
+      width: 2em;
+      height: 2em;
+    }
+    @include no-animation-button();
+    + :global(.icon-root) {
+      @include no-animation-button();
+    }
+    :global(+ .icon-root) {
+      pointer-events: none;
+    }
+    &:checked :global(+ .icon-root) {
+      --path: url("/assets/icons/replay.svg");
+    }
+    &:not(:checked) {
+      :global(+ .icon-root) {
+        --path: url("/assets/icons/fast-arrow.svg");
+      }
+      ~ main {
+        @include greet-animation();
+      }
     }
   }
 </style>

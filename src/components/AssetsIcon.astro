@@ -7,9 +7,10 @@ export interface Props extends astroHTML.JSX.HTMLAttributes {
 }
 const { path: rawPath, ...props } = Astro.props;
 const path = rawPath ? `url(/assets/${rawPath})` : null;
+const finalProps = forwardProps(props, path ? {style: `--path: ${path}`, class: "icon-root" } : {class:"icon-root"});
 ---
 
-<span class="icon-root" {...forwardProps(props, path ? {style: `--path: ${path}`} : {})}></span>
+<span {...finalProps}></span>
 
 <style lang="scss">
   .icon-root {

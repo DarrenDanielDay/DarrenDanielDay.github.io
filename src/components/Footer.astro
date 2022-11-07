@@ -22,6 +22,14 @@ const currentYear = new Date().getFullYear();
       <AssetsIcon path="logos/facebook.svg" />
     </a>
   </p>
+  {
+    Astro.slots.has("thanks-to") && (
+      <p class="thanks-to">
+        <strong>Thanks to:</strong>
+        <slot name="thanks-to" />
+      </p>
+    )
+  }
   <p class="support">
     Powered by <a href="https://astro.build" title="astro" target="_blank">
       <span class="light">
