@@ -6,6 +6,7 @@
   --bd: #d0d7de;
   --fg-1: #24292f;
   --fg-2: #57606a;
+  --fg-a: #0969da;
   --icon-filter: none;
 }
 @mixin dark() {
@@ -16,6 +17,7 @@
   --bd: #373e47;
   --fg-1: #c9d1d9;
   --fg-2: #8b949e;
+  --fg-a: #539bf5;
   --icon-filter: invert(90%);
 }
 

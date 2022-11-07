@@ -5,6 +5,7 @@ import type { MyFrontMatter } from "../scripts/util";
 import Footer from "../components/Footer.astro";
 import ToggleTheme from "../components/ToggleTheme.astro";
 import ToggleButton from "../components/ToggleButton.astro";
+import Link from "../components/Link.astro";
 const posts = await Astro.glob<MyFrontMatter>("./posts/*/index.mdx");
 const repo = (name: string) => {
   return `https://github.com/DarrenDanielDay/${name}`;
@@ -88,12 +89,12 @@ const repo = (name: string) => {
   </main>
   <Footer>
     <span slot="thanks-to">
-      <a href="https://iconscout.com/icons/fast-arrow" target="_blank">Fast arrow Icon</a> by <a
+      <Link href="https://iconscout.com/icons/fast-arrow" target="_blank">Fast arrow Icon</Link> by <Link
         href="https://iconscout.com/contributors/anggavisual93"
-        target="_blank">Angga Yudotomo</a
+        target="_blank">Angga Yudotomo</Link
       >
-      <a href="https://iconscout.com/icons/replay" target="_blank">Replay Icon</a> on <a href="https://iconscout.com"
-        >IconScout</a
+      <Link href="https://iconscout.com/icons/replay" target="_blank">Replay Icon</Link> on <Link
+        href="https://iconscout.com">IconScout</Link
       >
     </span>
   </Footer>
