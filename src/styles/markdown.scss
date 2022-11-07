@@ -1,0 +1,16 @@
+@import "./theme.scss";
+.markdown-body {
+  margin: 1em 2em;
+  padding: 1em 2em;
+}
+@include when-light-on() {
+  @import "github-markdown-css/github-markdown-light";
+}
+@include when-light-off() {
+  @import "github-markdown-css/github-markdown-dark";
+}
+img {
+  width: fit-content;
+  height: fit-content;
+  object-fit: contain;
+}
