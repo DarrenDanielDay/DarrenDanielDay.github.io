@@ -11,6 +11,7 @@ export interface Props {
 <style lang="scss" is:global>
   @import "../styles/theme.scss";
   #toggle-theme {
+    z-index: 1;
     ~header, ~main, ~footer {
       color: var(--fg-1);
       background-color: var(--bg-main);
