@@ -1,27 +1,20 @@
 ---
 import Card from "../../components/Card.astro";
-import Footer from "../../components/Footer.astro";
-import Header from "../../components/Header.astro";
-import Page from "../../layouts/Page.astro";
+import Classic from "../../layouts/Classic.astro";
 import type { MyFrontMatter } from "../../scripts/util";
 const posts = await Astro.glob<MyFrontMatter>("../posts/*/index.mdx");
 ---
 
-<Page title="全部博客">
-  <Header />
-  <main>
-    {
-      posts
-        .sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime())
-        .map((post) => (
-          <Card href={post.url ?? "/"} body={post.frontmatter.description} title={post.frontmatter.title} />
-        ))
-    }
-  </main>
-  <Footer />
-</Page>
+<Classic title="全部博客">
+  {
+    posts
+      .sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime())
+      .map((post) => <Card href={post.url ?? "/"} body={post.frontmatter.description} title={post.frontmatter.title} />)
+  }
+</Classic>
+
 <style lang="scss">
-  main {
-    margin: 1.5em;
+  :global(main) {
+    padding: 1.5em;
   }
 </style>

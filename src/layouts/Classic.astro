@@ -1,6 +1,7 @@
 ---
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import ToggleTheme from "../components/ToggleTheme.astro";
 import Page, {  Props as PageProps } from "./Page.astro";
 export interface Props extends PageProps {
 }
@@ -8,6 +9,7 @@ export interface Props extends PageProps {
 ---
 
 <Page {...Astro.props}>
+  <ToggleTheme />
   <Header />
   <main>
     <slot></slot>

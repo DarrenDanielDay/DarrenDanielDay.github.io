@@ -1,0 +1,35 @@
+---
+import ToggleButton from "./ToggleButton.astro";
+
+export interface Props {
+  // no props
+}
+---
+
+<ToggleButton style="position: fixed; right: 1em; bottom: 1em;" id="toggle-theme" title="切换主题" />
+
+<style lang="scss" is:global>
+  @import "../styles/theme.scss";
+  #toggle-theme {
+    ~header, ~main, ~footer {
+      color: var(--fg-1);
+      background-color: var(--bg-main);
+    }
+    + .icon-root {
+      @media (prefers-color-scheme: light) {
+        --normal-icon: url("/assets/icons/light-theme.svg");
+        --checked-icon: url("/assets/icons/dark-theme.svg");
+      }
+      @media (prefers-color-scheme: dark) {
+        --normal-icon: url("/assets/icons/dark-theme.svg");
+        --checked-icon: url("/assets/icons/light-theme.svg");
+      }
+    }
+  }
+  @include when-light-on() {
+    @include light();
+  }
+  @include when-light-off() {
+    @include dark();
+  }
+</style>

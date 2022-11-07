@@ -1,6 +1,5 @@
 ---
 import type { MyFrontMatter } from "../scripts/util";
-import "github-markdown-css/github-markdown.css";
 import Classic from "./Classic.astro";
 export interface Props {
   frontmatter: MyFrontMatter;
@@ -14,12 +13,19 @@ const { frontmatter } = Astro.props;
     <slot />
   </article>
 </Classic>
-<style lang="scss">
+<style lang="scss" is:global>
+  @import "../styles/theme.scss";
   .markdown-body {
     margin: 1em 2em;
     padding: 1em 2em;
   }
-  :global(img) {
+  @include when-light-on() {
+    @import "github-markdown-css/github-markdown-light";
+  }
+  @include when-light-off() {
+    @import "github-markdown-css/github-markdown-dark";
+  }
+  img {
     width: fit-content;
     height: fit-content;
     object-fit: contain;

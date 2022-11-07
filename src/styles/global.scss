@@ -1,3 +1,4 @@
+@import "./theme.scss";
 :root {
   --accent: 124, 58, 237;
   --accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
@@ -16,6 +17,7 @@ html {
   margin: 0;
   border: none;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 body {
   display: grid;
@@ -31,22 +33,7 @@ body {
   background-size: 400%;
   background-position: 0%;
 }
-@mixin light() {
-  --dark-display: none;
-  --light-display: unset;
-  --bg-back: #f6f6f6;
-  --bg-main: #ffffff;
-  --fg-1: #24292f;
-  --fg-2: #57606a;
-}
-@mixin dark() {
-  --dark-display: unset;
-  --light-display: none;
-  --bg-back: #22272e;
-  --bg-main: #2d333b;
-  --fg-1: #c9d1d9;
-  --fg-2: #8b949e;
-}
+
 :root {
   /** light theme by default  */
   @include light();

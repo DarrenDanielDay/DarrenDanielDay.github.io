@@ -1,0 +1,44 @@
+---
+import { forwardProps } from "../scripts/util";
+import AssetsIcon from "./AssetsIcon.astro";
+
+export interface Props extends astroHTML.JSX.InputHTMLAttributes {
+  normalIcon?: string;
+  checkedIcon?: string;
+  style?: string;
+  title: string;
+}
+const { normalIcon = "", checkedIcon = "", title, style = "", ...rest } = Astro.props;
+const normalIconUrl = normalIcon && `url("/assets/icons/${normalIcon}.svg")`;
+const checkedIconUrl = checkedIcon && `url("/assets/icons/${checkedIcon}.svg")`;
+const inputProps = forwardProps(rest, { type: "checkbox", style });
+---
+
+<input title={title} {...inputProps} />
+<AssetsIcon
+  path=""
+  style={`${normalIconUrl && `--normal-icon: ${normalIconUrl};`} ${
+    checkedIconUrl && `--checked-icon: ${checkedIconUrl};`
+  } ${style}`}
+/>
+
+<style lang="scss">
+  input {
+    font-size: inherit;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+    opacity: 0;
+  }
+  input + :global(.icon-root) {
+    font-size: inherit;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    width: 2em;
+    height: 2em;
+    background-image: var(--normal-icon);
+  }
+  input:checked + :global(.icon-root) {
+    background-image: var(--checked-icon);
+  }
+</style>

@@ -1,0 +1,54 @@
+@mixin light() {
+  --dark-display: none;
+  --light-display: inline-block;
+  --bg-back: #f6f6f6;
+  --bg-main: #ffffff;
+  --bd: #d0d7de;
+  --fg-1: #24292f;
+  --fg-2: #57606a;
+  --icon-filter: none;
+}
+@mixin dark() {
+  --dark-display: inline-block;
+  --light-display: none;
+  --bg-back: #22272e;
+  --bg-main: #2d333b;
+  --bd: #373e47;
+  --fg-1: #c9d1d9;
+  --fg-2: #8b949e;
+  --icon-filter: invert(90%);
+}
+
+@mixin when-light-on() {
+  #toggle-theme:checked {
+    ~ * {
+      @media (prefers-color-scheme: dark) {
+        @content;
+      }
+    }
+  }
+  #toggle-theme:not(:checked) {
+    ~ * {
+      @media (prefers-color-scheme: light) {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin when-light-off() {
+  #toggle-theme:checked {
+    ~ * {
+      @media (prefers-color-scheme: light) {
+        @content;
+      }
+    }
+  }
+  #toggle-theme:not(:checked) {
+    ~ * {
+      @media (prefers-color-scheme: dark) {
+        @content;
+      }
+    }
+  }
+}

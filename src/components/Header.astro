@@ -4,6 +4,7 @@ import AssetsIcon from "./AssetsIcon.astro";
 import Avatar from "./Avatar.astro";
 import type { LinkProps } from "./Link.astro";
 import Link from "./Link.astro";
+import ToggleButton from "./ToggleButton.astro";
 const path = Astro.url.pathname;
 const fragments = path
   .split("/")
@@ -28,12 +29,8 @@ const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constant
 ---
 
 <header>
-  <div class="sm dropdown-host">
-    <input type="checkbox" class="dropdown-menu-btn nav-item center" title="side menu" />
-    <AssetsIcon
-      path=""
-      style="position: absolute;top: 1em; left: 1em; width: 2em; height: 2em; pointer-events: none;"
-    />
+  <div class="sm dropdown-host nav-item">
+    <ToggleButton normalIcon="menu" checkedIcon="arrow-up" style="position: absolute; top: 1em; left: 1em;"  class="dropdown-menu-btn" title="side menu" />
     <aside class="dropdown-items">
       <ul>
         <li>
@@ -93,7 +90,7 @@ const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constant
     --header-hight: 4em;
     top: 0;
     background-color: var(--bg-main);
-    border-bottom: 0.05em rgba(15, 23, 42, 0.3) solid;
+    border-bottom: 0.05em var(--bd) solid;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     ol,
     ul {
@@ -107,9 +104,9 @@ const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constant
     align-items: center;
 
     .sm {
-      display: none;
+      display: none !important;
       @include sm() {
-        display: inline-flex;
+        display: inline-flex !important;
       }
     }
     .normal {
@@ -167,12 +164,7 @@ const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constant
           height: var(--header-hight);
         }
       }
-      :global(.icon-root) {
-        transition: all .3s ease;
-        --path: url("/assets/icons/menu.svg");
-      }
       .dropdown-menu-btn {
-        font-size: inherit;
         background-color: transparent;
         opacity: 0;
         cursor: pointer;
@@ -181,9 +173,6 @@ const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constant
           ~ .dropdown-items {
             transform: translateY(var(--header-hight));
             opacity: 1;
-          }
-          ~ :global(.icon-root) {
-            --path: url("/assets/icons/arrow-up.svg");
           }
         }
       }

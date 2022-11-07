@@ -3,7 +3,8 @@ import Page from "../layouts/Page.astro";
 import Card from "../components/Card.astro";
 import type { MyFrontMatter } from "../scripts/util";
 import Footer from "../components/Footer.astro";
-import AssetsIcon from "../components/AssetsIcon.astro";
+import ToggleTheme from "../components/ToggleTheme.astro";
+import ToggleButton from "../components/ToggleButton.astro";
 const posts = await Astro.glob<MyFrontMatter>("./posts/*/index.mdx");
 const repo = (name: string) => {
   return `https://github.com/DarrenDanielDay/${name}`;
@@ -11,71 +12,79 @@ const repo = (name: string) => {
 ---
 
 <Page title="Darren Daniel Day's personal index">
-  <input id="no-animation" type="checkbox" title="动画选项（加载是假的哈哈）" />
-  <AssetsIcon path=""  />
+  <ToggleTheme />
+  <ToggleButton
+    id="no-animation"
+    normalIcon="fast-arrow"
+    checkedIcon="replay"
+    style="position: absolute; top: 1em; left: 1em; z-index: 1;"
+    title="动画选项（加载是假的哈哈）"
+  />
   <main>
-    <h1>
-      <span class="greet-1">嗨，</span><span class="greet-2 text-gradient">别来无恙啊！</span>
-    </h1>
-    <h2>
-      <span class="greet-3">我们为您准备了一些<span class="text-gradient"> 有趣的内容</span>。</span>
-    </h2>
-    <h3 class="removed">
-      <span class="greet-4">正在获取数据，请勿刷新浏览器。</span><br />
-      <span class="greet-5">精彩即将呈现。</span>
-    </h3>
-    <ul role="list" class="link-card-grid">
-      {
-        posts
-          .sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime())
-          .slice(0, 10)
-          .map((post) => (
-            <Card href={post.url ?? "/"} body={post.frontmatter.description} title={post.frontmatter.title} />
-          ))
-      }
-      <Card
-        href="/Libra"
-        title="Libra - 一个称次品问题的求解模型"
-        body="12 个乒乓球，有一个次品，不知轻重，用一台无砝码天平称三次，找出次品，告知轻重？"
-      />
-      <Card
-        href="/es-modularize"
-        title="es-modularize - 将npm包在浏览器内加载为esmodule"
-        body="用了它以后，Angular项目都只剩下30KB了！"
-      />
-      <Card href="/gizmo-ball-react" title="Gizmo Ball - 一个简单的2D物理弹球游戏" body="见过200行的纯函数吗？" />
-      <Card
-        href={repo("func-di")}
-        title="func-di - 一个函数式依赖注入库"
-        body="零依赖，没有class，没有装饰器，不可变，类型安全。"
-      />
-      <Card
-        href={repo("script-plus")}
-        title="script-plus - 一个vscode的脚本运行插件"
-        body="用过vscode版的Tampermonkey吗？"
-      />
-      <Card
-        href={repo("css-module-types-and-map")}
-        title="css-module-types-and-map - 一个vscode的css module插件"
-        body="为css module生成TypeScript类型定义，但是居然能跳转到样式代码？"
-      />
-      <Card href="/life-game" title="Life Game - 计算机科学经典的自动机" body="但是这一回，用React来写！" />
-      <Card
-        href="/china-address-search"
-        title="china-address-search - 一个地址模糊搜索算法"
-        body="虽然算法很暴力，但是有用。"
-      />
-      <Card
-        href={repo("leetcode-typescript-workspace")}
-        title="leetcode-typescript-workspace - 前端力扣刷题神器"
-        body="自从用了这个，用TypeScript刷力扣再也不用提交到在线去debug了！"
-      />
-      <Card
-        href={repo("typescript-programming-redefined")}
-        title="typescript-programming-redefined - TypeScript进阶"
-        body="TypeScript进阶与类型体操，看这一篇就够了！"
-      />
-    </ul>
+    <div class="index-content">
+      <h1>
+        <span class="greet-1">嗨，</span><span class="greet-2 text-gradient">别来无恙啊！</span>
+      </h1>
+      <h2>
+        <span class="greet-3">我们为您准备了一些<span class="text-gradient"> 有趣的内容</span>。</span>
+      </h2>
+      <h3 class="removed">
+        <span class="greet-4">正在获取数据，请勿刷新浏览器。</span><br />
+        <span class="greet-5">精彩即将呈现。</span>
+      </h3>
+      <ul role="list" class="link-card-grid">
+        {
+          posts
+            .sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime())
+            .slice(0, 10)
+            .map((post) => (
+              <Card href={post.url ?? "/"} body={post.frontmatter.description} title={post.frontmatter.title} />
+            ))
+        }
+        <Card
+          href="/Libra"
+          title="Libra - 一个称次品问题的求解模型"
+          body="12 个乒乓球，有一个次品，不知轻重，用一台无砝码天平称三次，找出次品，告知轻重？"
+        />
+        <Card
+          href="/es-modularize"
+          title="es-modularize - 将npm包在浏览器内加载为esmodule"
+          body="用了它以后，Angular项目都只剩下30KB了！"
+        />
+        <Card href="/gizmo-ball-react" title="Gizmo Ball - 一个简单的2D物理弹球游戏" body="见过200行的纯函数吗？" />
+        <Card
+          href={repo("func-di")}
+          title="func-di - 一个函数式依赖注入库"
+          body="零依赖，没有class，没有装饰器，不可变，类型安全。"
+        />
+        <Card
+          href={repo("script-plus")}
+          title="script-plus - 一个vscode的脚本运行插件"
+          body="用过vscode版的Tampermonkey吗？"
+        />
+        <Card
+          href={repo("css-module-types-and-map")}
+          title="css-module-types-and-map - 一个vscode的css module插件"
+          body="为css module生成TypeScript类型定义，但是居然能跳转到样式代码？"
+        />
+        <Card href="/life-game" title="Life Game - 计算机科学经典的自动机" body="但是这一回，用React来写！" />
+        <Card
+          href="/china-address-search"
+          title="china-address-search - 一个地址模糊搜索算法"
+          body="虽然算法很暴力，但是有用。"
+        />
+        <Card
+          href={repo("leetcode-typescript-workspace")}
+          title="leetcode-typescript-workspace - 前端力扣刷题神器"
+          body="自从用了这个，用TypeScript刷力扣再也不用提交到在线去debug了！"
+        />
+        <Card
+          href={repo("typescript-programming-redefined")}
+          title="typescript-programming-redefined - TypeScript进阶"
+          body="TypeScript进阶与类型体操，看这一篇就够了！"
+        />
+      </ul>
+    </div>
   </main>
   <Footer>
     <span slot="thanks-to">
@@ -92,6 +101,13 @@ const repo = (name: string) => {
 
 <style lang="scss">
   @use "sass:list";
+  @import "../styles/utils.scss";
+  :global(html) {
+    @include sm() {
+      font-size: 12px;
+    }
+  }
+  // @import "../styles/theme.scss";
   h1,
   h2,
   h3 {
@@ -106,10 +122,15 @@ const repo = (name: string) => {
   }
 
   main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
     overflow: hidden;
-    margin: auto;
-    padding: 0 2em;
-    max-width: 60ch;
+    padding: 0 4em;
+    .index-content {
+      max-width: 60ch;
+    }
   }
   .link-card-grid {
     display: grid;
@@ -203,27 +224,7 @@ const repo = (name: string) => {
   }
   #no-animation {
     opacity: 0;
-    @mixin no-animation-button() {
-      position: absolute;
-      top: 1em;
-      left: 1em;
-      width: 2em;
-      height: 2em;
-    }
-    @include no-animation-button();
-    + :global(.icon-root) {
-      @include no-animation-button();
-    }
-    :global(+ .icon-root) {
-      pointer-events: none;
-    }
-    &:checked :global(+ .icon-root) {
-      --path: url("/assets/icons/replay.svg");
-    }
     &:not(:checked) {
-      :global(+ .icon-root) {
-        --path: url("/assets/icons/fast-arrow.svg");
-      }
       ~ main {
         @include greet-animation();
       }

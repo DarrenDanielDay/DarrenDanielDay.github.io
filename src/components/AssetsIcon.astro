@@ -18,10 +18,8 @@ const finalProps = forwardProps(props, path ? {style: `--path: ${path}`, class: 
     background-image: var(--path);
     background-size: contain;
     background-repeat: no-repeat;
-    @media (prefers-color-scheme: dark) {
-      &:not([data-no-invert]) {
-        filter: invert(90%);
-      }
+    &:not([data-no-invert]) {
+      filter: var(--icon-filter);
     }
   }
 </style>
