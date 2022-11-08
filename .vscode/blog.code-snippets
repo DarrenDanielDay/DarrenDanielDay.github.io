@@ -1,0 +1,30 @@
+{
+  "Image element": {
+    "prefix": "img",
+    "description": "Insert image.",
+    "scope": "markdown,mdx",
+    "body": ["<Image src={import(\".$0\")} />"]
+  },
+  "Common used imports": {
+    "prefix": "import",
+    "description": "Import `Image` component.",
+    "scope": "markdown,mdx",
+    "body": ["import Image from \"../../../components/Image.astro\";"]
+  },
+  "Blog frontmatter": {
+    "prefix": "blog",
+    "description": "Front matter common",
+    "scope": "markdown,mdx",
+    "body": [
+      "---",
+      "layout: \"../../../layouts/Blog.astro\"",
+      "title: \"$1\"",
+      "pubDate: 2022-11-03",
+      "description: \"$2\"",
+      "author: \"Darren Daniel Day\"",
+      "tags: []",
+      "---",
+      "$0"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+---
+import { Image, ImgHTMLAttributes } from "@astrojs/image/components";
+import type { OutputFormat, TransformOptions } from "@astrojs/image/dist/loaders";
+import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
+import { isModuleWithDefaultExport, isPromise } from "../scripts/util";
+
+export interface Props
+  extends Omit<TransformOptions, "src">,
+    Omit<ImgHTMLAttributes, "src" | "alt" | "width" | "height" | "slot"> {
+  src: ImageMetadata | Promise<{ default: ImageMetadata }>;
+  format?: OutputFormat;
+}
+const { src: propSrc, format = "webp", ...others } = Astro.props;
+
+const imageMetaData = await (async () => {
+  if (isPromise(propSrc)) {
+    const awaited = await propSrc;
+    if (!isModuleWithDefaultExport(awaited)) {
+      throw new Error("`src` is not a module with default export.");
+    }
+    return awaited.default;
+  }
+  return propSrc;
+})();
+const path = imageMetaData.src;
+const alt = path.split("/").at(-1) ?? path;
+---
+
+<Image src={imageMetaData} alt={alt} format={format} {...others} />

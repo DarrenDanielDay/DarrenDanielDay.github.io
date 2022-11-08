@@ -1,5 +1,8 @@
 /// <reference types="astro/astro-jsx" />
-
+import type { Validator } from "taio/esm/utils/validator/common.mjs";
+import { noCheck } from "taio/esm/utils/validator/utils.mjs";
+import { isString } from "taio/esm/utils/validator/primitive.mjs";
+import { isFunction, isObject } from "taio/esm/utils/validator/object.mjs";
 export interface MyFrontMatter {
   title: string;
   pubDate: string;
@@ -8,9 +11,16 @@ export interface MyFrontMatter {
   tags: string[];
 }
 
-export function assets(path: string) {
-  return `/assets/${path}`;
-}
+export const isPromise: Validator<Promise<any>> = isObject({
+  then: isFunction,
+  catch: isFunction,
+  finally: isFunction,
+  [Symbol.toStringTag]: isString,
+});
+
+export const isModuleWithDefaultExport = isObject({
+  default: noCheck,
+});
 
 export function forwardProps<T extends astroHTML.JSX.HTMLAttributes>(passed: T, defined: T): T {
   const { style: pStyle, class: pClass } = passed;

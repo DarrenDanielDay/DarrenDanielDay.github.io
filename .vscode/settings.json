@@ -1,3 +1,8 @@
 {
-  "screenshot-clipboard.configs.saveDir": "src/pages/posts/github-pages-tutorial"
+  "screenshot-clipboard.configs.saveDir": "src/pages/posts/github-pages-tutorial",
+  "path-intellisense.mappings": {
+    "/": "${workspaceFolder}/public"
+  },
+  "path-intellisense.autoTriggerNextSuggestion": true,
+  "astro.typescript.rename.enabled": true
 }

@@ -7,9 +7,7 @@ author: "Darren Daniel Day"
 tags: ["tutorial", "GitHub Pages", "Astro"]
 ---
 
-import newRepo from "./new-repo.png";
-import newRepoForm from "./new-repo-form.png";
-import pagesSettings from "./pages-settings.png";
+import Image from "../../../components/Image.astro";
 
 # GitHub Pages & GitHub Actions 免费搭建个人网站
 
@@ -68,13 +66,13 @@ npm create astro@latest
 
 登录[GitHub](https://github.com)，点击右上角的`+`，选择`new repository`。
 
-<img src={newRepo} alt="new-repo.png" />
+<Image src={import("./new-repo.png")} />
 
 在创建仓库时，取名为`<你的GitHub用户名>.github.io`，例如作者的账号，应将仓库命名为`DarrenDanielDay.github.io`。
 
 当然，由于作者已经创建了仓库，所以爆了个红框，不必在意。
 
-<img src={newRepoForm} alt="new-repo-form.png" />
+<Image src={import("./new-repo-form.png")} />
 
 如果你在看这个教程之前已经创建了这个仓库，相信你已经尝试过使用 `GitHub Pages`。在这种情况下，如果不能正常通过`https://<你的GitHub用户名的小写>.github.io`正常访问到你的网页（404），可能的原因是：
 
@@ -129,7 +127,7 @@ git push -u my-site main
 在`<你的GitHub用户名>.github.io`的界面上找到 ⚙`Settings` > `Pages`，选择`Deploy from a branch`，以及要作为 `GitHub Pages` 发布的分支和该分支下的静态资源目录。
 通常来说，静态资源目录下应当存在一个`index.html`或者`index`+其他`HTML`后缀的缩写，这个文件会成为网站的主页内容。一些可能的文件夹名：`dist`、`build`、`www`。
 
-<img src={pagesSettings} alt="pages-settings.png" />
+<Image src={import("./pages-settings.png")} />
 
 配置完点击`Save`保存，等个一分钟左右就可以通过`https://<你的GitHub用户名的小写>.github.io`访问到你的网站了。
 

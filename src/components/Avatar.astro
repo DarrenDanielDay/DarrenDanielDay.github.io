@@ -1,14 +1,17 @@
 ---
-import { assets, forwardProps } from "../scripts/util";
+import { forwardProps } from "../scripts/util";
+import { parsePath } from "../scripts/assets";
 
 export interface Props extends astroHTML.JSX.ImgHTMLAttributes {
   url?: string;
 }
-const { url = assets("DarrenDanielDay.jpg"), alt = url.split("/").at(-1), ...others } = Astro.props;
+const { url: propsUrl, alt: propsAlt, ...others } = Astro.props;
+const url = propsUrl ?? "/assets/DarrenDanielDay.jpg";
+const alt = propsAlt != null ? propsAlt : parsePath(url).base;
 const rest = forwardProps(others, { class: "avatar" });
 ---
 
-<img src={url} alt={alt} {...rest} />
+<img src={url} alt={alt} {...rest} loading="lazy" decoding="async" />
 
 <style lang="scss">
   img.avatar {
