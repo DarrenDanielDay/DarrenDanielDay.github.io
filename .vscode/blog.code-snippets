@@ -5,6 +5,12 @@
     "scope": "markdown,mdx",
     "body": ["<Image src={import(\".$0\")} />"]
   },
+  "Link": {
+    "prefix": "link",
+    "description": "Insert link",
+    "scope": "markdown,mdx",
+    "body": ["[${CLIPBOARD/[<>]//g}](${CLIPBOARD/[<>]//g})"]
+  },  
   "Common used imports": {
     "prefix": "import",
     "description": "Import `Image` component.",
@@ -19,7 +25,7 @@
       "---",
       "layout: \"../../../layouts/Blog.astro\"",
       "title: \"$1\"",
-      "pubDate: 2022-11-03",
+      "pubDate: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
       "description: \"$2\"",
       "author: \"Darren Daniel Day\"",
       "tags: []",
