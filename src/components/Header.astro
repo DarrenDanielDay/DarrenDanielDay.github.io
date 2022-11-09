@@ -21,6 +21,10 @@ const fileSubPath = (() => {
 })();
 const links: LinkProps[] = [
   {
+    title: "旧版",
+    href: "/pages",
+  },
+  {
     title: "关于",
     href: "/about",
   },
@@ -30,7 +34,13 @@ const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constant
 
 <header>
   <div class="sm dropdown-host nav-item">
-    <ToggleButton normalIcon="menu" checkedIcon="arrow-up" style="position: absolute; top: 1em; left: 1em;"  class="dropdown-menu-btn" title="side menu" />
+    <ToggleButton
+      normalIcon="menu"
+      checkedIcon="arrow-up"
+      style="position: absolute; top: 1em; left: 1em;"
+      class="dropdown-menu-btn"
+      title="side menu"
+    />
     <aside class="dropdown-items">
       <ul>
         <li>
@@ -62,9 +72,9 @@ const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constant
       }
     </ol>
   </nav>
-  <div class="center">
+  <div class="external center">
     <div class="center normal">
-      <ul>
+      <ul class="links">
         {
           links.map((link) => (
             <li>
@@ -146,6 +156,10 @@ const githubSource = `https://github.com/${constants.DarrenDanielDay}/${constant
           }
         }
       }
+    }
+    .external .links {
+      display: inline-flex;
+      gap: 0.5em;
     }
     .dropdown-host {
       .dropdown-items {

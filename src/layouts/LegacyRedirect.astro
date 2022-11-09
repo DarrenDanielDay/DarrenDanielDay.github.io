@@ -1,0 +1,38 @@
+---
+export interface Props {
+  title: string;
+  path: string;
+  wait?: number;
+}
+const { title, path, wait } = Astro.props;
+const seconds = wait ?? (import.meta.env.MODE === "development" ? 100 : 10);
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>正在重定向到新版 {title}</title>
+    <meta http-equiv="refresh" content={`${seconds}; URL=${path}`} />
+    <link rel="canonical" href={path} />
+  </head>
+  <body>
+    <h1>
+      此页面已移动到新路径： {path}
+    </h1>
+    <p>
+      将在<strong id="seconds" style="color: red;">{seconds}</strong>秒后重定向。 如果没有自动重定向，<a href={path}
+        >请点击此处</a
+      >。
+    </p>
+    <script define:vars={{ seconds }}>
+      var span = document.getElementById("seconds");
+      var rest = seconds;
+      setInterval(() => {
+        rest--;
+        span.textContent = "" + rest;
+      }, 1000);
+    </script>
+    <slot />
+  </body>
+</html>
