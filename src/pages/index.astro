@@ -147,26 +147,31 @@ const repo = (name: string) => {
     }
     to {
       opacity: 1;
+      pointer-events: all;
       transform: scale(1);
     }
   }
   @keyframes slidein-left {
     from {
       opacity: 0;
+      pointer-events: none;
       transform: translateX(-100%);
     }
     to {
       opacity: 1;
+      pointer-events: all;
       transform: translateX(0);
     }
   }
   @keyframes slidein-right {
     from {
       opacity: 0;
+      pointer-events: none;
       transform: translateX(100%);
     }
     to {
       opacity: 1;
+      pointer-events: all;
       transform: translateX(0);
     }
   }
