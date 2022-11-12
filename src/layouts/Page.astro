@@ -3,9 +3,16 @@ import type { MyFrontMatter } from "../scripts/util";
 
 export interface Props extends Partial<MyFrontMatter> {
   title: string;
+  hasTheme?: boolean;
 }
 
-const { title, author = "Darren Daniel Day", description = "Darren Daniel Day's personal index.", tags } = Astro.props;
+const {
+  title,
+  author = "Darren Daniel Day",
+  description = "Darren Daniel Day's personal index.",
+  tags,
+  hasTheme,
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -17,7 +24,9 @@ const { title, author = "Darren Daniel Day", description = "Darren Daniel Day's 
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="author" content={author} />
+    <meta name="publisher" content="Darren Daniel Day" />
     {tags && <meta name="keywords" content={tags.toString()} />}
+    {hasTheme && <meta name="color-theme" content="light dark" />}
     <title>{title}</title>
   </head>
   <body>
