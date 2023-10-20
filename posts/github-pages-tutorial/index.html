@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="/assets/DarrenDanielDay.jpg"><meta name="generator" content="Astro v3.3.2"><meta name="description" content="GitHub Pages &#38; GitHub Actions搭建个人网站的简单教程。"><meta name="author" content="Darren Daniel Day"><meta name="publisher" content="Darren Daniel Day"><meta name="keywords" content="tutorial,GitHub Pages,Astro"><meta name="color-theme" content="light dark"><title>GitHub Pages &amp; GitHub Actions 免费搭建个人网站</title><link rel="stylesheet" href="/_astro/index.dd07d350.css" />
+<link rel="stylesheet" href="/_astro/index.638201a4.css" /></head><body><input title="切换主题" id="toggle-theme" type="checkbox" style=";position: fixed; right: 1em; bottom: 1em" class="undefined undefined astro-khev4atk" data-astro-cid-khev4atk><span style="position: fixed; right: 1em; bottom: 1em;" data-astro-cid-khev4atk class="undefined icon-root astro-7vlmei4a" data-astro-cid-7vlmei4a></span><header data-astro-cid-3ef6ksr2><div class="sm dropdown-host nav-item" data-astro-cid-3ef6ksr2><input title="side menu" class="dropdown-menu-btn undefined astro-khev4atk" data-astro-cid-3ef6ksr2 type="checkbox" style=";position: absolute; top: 1em; left: 1em" data-astro-cid-khev4atk><span style="--normal-icon: url(&#34;/assets/icons/menu.svg&#34;); --checked-icon: url(&#34;/assets/icons/arrow-up.svg&#34;); position: absolute; top: 1em; left: 1em;" data-astro-cid-khev4atk class="undefined icon-root astro-7vlmei4a" data-astro-cid-7vlmei4a></span><aside class="dropdown-items" data-astro-cid-3ef6ksr2><ul data-astro-cid-3ef6ksr2><li data-astro-cid-3ef6ksr2><a href="/posts" title="返回上层" data-astro-cid-3ef6ksr2 class="astro-mbqdmgin" data-astro-cid-mbqdmgin>返回上层</a></li><li data-astro-cid-3ef6ksr2><a title="旧版" href="/pages" data-astro-cid-3ef6ksr2 class="astro-mbqdmgin" data-astro-cid-mbqdmgin>旧版</a></li><li data-astro-cid-3ef6ksr2><a title="关于" href="/about" data-astro-cid-3ef6ksr2 class="astro-mbqdmgin" data-astro-cid-mbqdmgin>关于</a></li></ul></aside></div><nav class="normal" data-astro-cid-3ef6ksr2><ol data-astro-cid-3ef6ksr2><li data-astro-cid-3ef6ksr2><a href="/" data-astro-cid-3ef6ksr2 class="astro-mbqdmgin" data-astro-cid-mbqdmgin><img src="/assets/DarrenDanielDay.jpg" alt="DarrenDanielDay.jpg" data-astro-cid-3ef6ksr2 class="undefined avatar astro-vjqwbl62" style=";" loading="lazy" decoding="async" data-astro-cid-vjqwbl62></a></li><li data-astro-cid-3ef6ksr2><a href="/posts" data-astro-cid-3ef6ksr2 class="astro-mbqdmgin" data-astro-cid-mbqdmgin>posts</a></li><li data-astro-cid-3ef6ksr2><a href="/posts/github-pages-tutorial" data-astro-cid-3ef6ksr2 class="astro-mbqdmgin" data-astro-cid-mbqdmgin>github-pages-tutorial</a></li></ol></nav><div class="external center" data-astro-cid-3ef6ksr2><div class="center normal" data-astro-cid-3ef6ksr2><ul class="links" data-astro-cid-3ef6ksr2><li data-astro-cid-3ef6ksr2><a title="旧版" href="/pages" data-astro-cid-3ef6ksr2 class="astro-mbqdmgin" data-astro-cid-mbqdmgin>旧版</a></li><li data-astro-cid-3ef6ksr2><a title="关于" href="/about" data-astro-cid-3ef6ksr2 class="astro-mbqdmgin" data-astro-cid-mbqdmgin>关于</a></li></ul></div><div class="nav-item center" data-astro-cid-3ef6ksr2><a href="https://github.com/DarrenDanielDay/DarrenDanielDay.github.io/tree/remake/src/pages/posts/github-pages-tutorial/index.mdx" title="在GitHub上查看本页面源码" target="_blank" data-astro-cid-3ef6ksr2><span data-astro-cid-3ef6ksr2 style=";--path: url(/assets/logos/github.svg)" class="undefined icon-root astro-7vlmei4a" data-astro-cid-7vlmei4a></span></a></div></div></header><main><article class="markdown-body"><h1 id="github-pages--github-actions-免费搭建个人网站">GitHub Pages &amp; GitHub Actions 免费搭建个人网站</h1>
+<p>重要的事情先说三遍：</p>
+<p>此方案只适用于纯前端网站！</p>
+<p>此方案只适用于纯前端网站！</p>
+<p>此方案只适用于纯前端网站！</p>
+<p>“纯前端”意味着绝大部分的故事都发生在客户端（也就是浏览器）。所有代码/网站资源，诸如<code>HTML</code>、<code>CSS</code>、<code>JavaScript</code>、图片、视频、音频，都将在浏览器内被下载和运行/显示。</p>
+<p>简单来说，此方案适合以下场景：</p>
+<ul>
+<li>个人博客</li>
+<li>文档/wiki/攻略</li>
+<li>网页单机小游戏</li>
+<li>其他使用<code>JavaScript</code>/<code>Web Assembly</code>或其他语言编写逻辑的任何能在浏览器内运行的程序/界面化工具</li>
+</ul>
+<p>如果你的个人网站需要收集并保存一些用户数据（比如，用户注册等），或者需要使用服务端语言执行一些逻辑（比如，使用<code>Python</code>做机器学习，尽管在浏览器内运行<code>Python</code>是可能的，但是不推荐这样做），那么此方案无法为你提供数据的中心化/持久化以及服务端计算的方案。不过你可以前端使用此方案，而服务端使用另外的方案，例如阿里云/腾讯云的云服务器/云存储/云函数，两者组合起来搭建完整的个人网站。对于一些数据持久化/服务端计算对外存在公开接口的场景，例如你想做某个游戏的攻略网站，并且游戏平台官方存在公开的获取用户数据的接口，也可以单独使用此方案完成前端部分。</p>
+<h2 id="前提知识">前提知识</h2>
+<p>以下内容不是本文的重点，但你需要学会他们的基本操作才能顺利地用此方案完成个人网站的初步搭建：</p>
+<ul>
+<li><a href="https://git-scm.com/"><code>git</code></a>与一个<a href="https://github.com/signup"><code>GitHub</code></a>账号</li>
+<li>一个顺手的代码编写工具</li>
+<li>编写网站的内容</li>
+</ul>
+<p>对于上述，本文将使用这些：</p>
+<ul>
+<li><code>git bash</code>命令行，以及作者的<a href="https://github.com/DarrenDanielDay">个人账号</a></li>
+<li><a href="https://code.visualstudio.com"><code>Visual Studio Code</code></a></li>
+<li>一个非常快的前端框架<a href="https://astro.build"><code>Astro</code></a>与<a href="https://nodejs.org"><code>Node.JS</code></a>工具链</li>
+</ul>
+<p>当然，你可以使用其他工具完成这些工作，例如，你也可以使用<a href="https://desktop.github.com/"><code>GitHub Desktop</code></a>完成<code>git</code>操作，使用<a href="https://angular.io"><code>Angular</code></a>、<a href="https://reactjs.org"><code>React</code></a>、<a href=""><code>Svelte</code></a>、<a href="https://vuejs.org"><code>Vue</code></a>等前端框架完成网站内容的编写，或者也可以直接用前端老三样<code>HTML</code>/<code>CSS</code>/<code>JavaScript</code>来直接编写网站内容。</p>
+<h2 id="开始吧">开始吧</h2>
+<h3 id="0-创建本地前端项目与编写内容">0. 创建本地前端项目与编写内容</h3>
+<p>这里使用<code>astro</code>的脚手架进行初始化，交互选项可以自行选择（懒得选就一路回车到底用默认的）。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> create</span><span style="color:#9ECBFF"> astro@latest</span></span></code></pre>
+<p>相信有些前端同学看到这个 DNA 就开始动了——脚手架初始化项目，随便什么框架都行，如果不用框架，那就是新建一个文件夹。</p>
+<p>文件夹的名字和位置都是任意的。就作者个人习惯而言，为了方便管理，文件夹放在<code>/GitHub/DarrenDanielDay/DarrenDanielDay.github.io</code>。后续的命令均在项目根目录下执行。</p>
+<p>至于如何进行前端的内容制作，自然不是本文的话题。不过，本文的内容（Markdown）也将通过本文介绍的方法发布到 <code>GitHub Pages</code>。</p>
+<h3 id="1-创建个人-github-仓库">1. 创建个人 GitHub 仓库</h3>
+<p>登录<a href="https://github.com">GitHub</a>，点击右上角的<code>+</code>，选择<code>new repository</code>。</p>
+<img src="/_astro/new-repo.6785826e_Z1BW9rB.webp" alt="new-repo.6785826e.png" width="481" height="311" loading="lazy" decoding="async">
+<p>在创建仓库时，取名为<code>&lt;你的GitHub用户名&gt;.github.io</code>，例如作者的账号，应将仓库命名为<code>DarrenDanielDay.github.io</code>。</p>
+<p>当然，由于作者已经创建了仓库，所以爆了个红框，不必在意。</p>
+<img src="/_astro/new-repo-form.3e1e4a3f_Z1sPvng.webp" alt="new-repo-form.3e1e4a3f.png" width="763" height="964" loading="lazy" decoding="async">
+<p>如果你在看这个教程之前已经创建了这个仓库，相信你已经尝试过使用 <code>GitHub Pages</code>。在这种情况下，如果不能正常通过<code>https://&lt;你的GitHub用户名的小写&gt;.github.io</code>正常访问到你的网页（404），可能的原因是：</p>
+<ul>
+<li>你将仓库的可见性设置成了<code>Private</code>，并且没有付费升级自己的 <code>GitHub</code> 账号（4 美元每月），或者其他原因没有开启 <code>GitHub Pages</code></li>
+<li>你的仓库部署内容不存在默认定向到主索引的文件，导致网站资源找不到</li>
+</ul>
+<p>至于第二点应该怎么做，后文将会介绍。</p>
+<h3 id="2-初始化本地-git-仓库和提交代码">2. 初始化本地 git 仓库和提交代码</h3>
+<p>现在，你应当有了一个能运行的前端项目，并且准备将其发布到 <code>GitHub Pages</code> 上，使得它在线可用。如果你的项目已经有了 `git“ 仓库和一些提交记录，你可以跳过这一步的操作。</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#6A737D"># 初始化git仓库</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> init</span></span>
+<span class="line"><span style="color:#6A737D"># 暂存修改</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> .</span></span>
+<span class="line"><span style="color:#6A737D"># 提交代码，附加提交信息</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> commit</span><span style="color:#79B8FF"> -m</span><span style="color:#9ECBFF"> &quot;feat(github-pages-tutorial): 添加网站搭建教程&quot;</span></span>
+<span class="line"><span style="color:#6A737D"># 将当前分支（主分支）从默认的master改名为main，遵循GitHub的新习惯</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> branch</span><span style="color:#79B8FF"> -M</span><span style="color:#9ECBFF"> main</span></span></code></pre>
+<p>如果你的前端项目代码不能直接作为网站静态资源，而是需要打包构建后才能部署到静态资源服务器（例如，是基于前文提到的某个前端框架写的网站），那么你有三种选择：</p>
+<ol>
+<li>本地打包构建好，将打包构建好的代码提交并推送到这个仓库的分支</li>
+<li>使用 <code>GitHub Actions</code> 简化上述流程</li>
+<li>使用 <code>GitHub Actions</code> 直接部署 <code>GitHub Pages</code>（目前此功能仍在 Beta 阶段）</li>
+</ol>
+<p>GitHub Actions 稍后再做介绍。如果你对于网站制作也还是刚刚开始，可以先用第一个更简单直观、容易排查原因的方法，让你的网站先在线跑起来。
+对于第一种办法，提交代码不一定得是提交到<code>main</code>分支，可以是任意分支。习惯上<code>GitHub Pages</code> 用<code>gh-pages</code>分支，便于记忆和管理。</p>
+<h3 id="3-推送本地-git-仓库到-github">3. 推送本地 git 仓库到 GitHub</h3>
+<p>现在，你应当已经有了一些带有前端内容的 <code>git</code> 提交记录。</p>
+<p>首先执行下面的命令添加远程仓库并推送代码：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#6A737D"># 添加一个名为my-site的远程仓库，使用SSH连接</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> remote</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> my-site</span><span style="color:#9ECBFF"> git@github.com:</span><span style="color:#F97583">&lt;</span><span style="color:#9ECBFF">你的GitHub用户</span><span style="color:#E1E4E8">名</span><span style="color:#F97583">&gt;</span><span style="color:#9ECBFF">/</span><span style="color:#F97583">&lt;</span><span style="color:#9ECBFF">你的GitHub用户</span><span style="color:#E1E4E8">名</span><span style="color:#F97583">&gt;</span><span style="color:#9ECBFF">.github.io</span></span>
+<span class="line"><span style="color:#6A737D"># 推送main分支的代码到刚添加的my-site的github远程仓库</span></span>
+<span class="line"><span style="color:#B392F0">git</span><span style="color:#9ECBFF"> push</span><span style="color:#79B8FF"> -u</span><span style="color:#9ECBFF"> my-site</span><span style="color:#9ECBFF"> main</span></span></code></pre>
+<p>有关 SSH 的配置，请自行查阅资料。</p>
+<h3 id="4-配置仓库开启-github-pages">4. 配置仓库开启 GitHub Pages</h3>
+<p>现在，你的远程仓库内应当已经有了可用的网站静态资源内容，无论它们是直接编写的，还是通过框架工具链打包构建得到的。</p>
+<p>在<code>&lt;你的GitHub用户名&gt;.github.io</code>的界面上找到 ⚙<code>Settings</code> &gt; <code>Pages</code>，选择<code>Deploy from a branch</code>，以及要作为 <code>GitHub Pages</code> 发布的分支和该分支下的静态资源目录。
+通常来说，静态资源目录下应当存在一个<code>index.html</code>或者<code>index</code>+其他<code>HTML</code>后缀的缩写，这个文件会成为网站的主页内容。一些可能的文件夹名：<code>dist</code>、<code>build</code>、<code>www</code>。</p>
+<img src="/_astro/pages-settings.090a1cd1_hRbz.webp" alt="pages-settings.090a1cd1.png" width="1052" height="530" loading="lazy" decoding="async">
+<p>配置完点击<code>Save</code>保存，等个一分钟左右就可以通过<code>https://&lt;你的GitHub用户名的小写&gt;.github.io</code>访问到你的网站了。</p>
+<h3 id="5-配置-github-actions-简化流程">5. 配置 GitHub Actions 简化流程</h3>
+<p>如果你完全通过编写<code>HTML</code>/<code>CSS</code>/<code>JavaScript</code>来完成前端而不需要工具打包构建，那么这样就足够了。对于需要打包构建的场景，可以通过 <code>GitHub Actions</code> 来帮你做重复的繁杂的操作，自动化构建+部署。</p>
+<p>首先在项目根目录下建一个<code>.github</code>文件夹，然后再在里面建一个<code>workflows</code>文件夹，最后在里面建一个<code>.yaml</code>后缀的配置文件<code>build.yml</code>。</p>
+<p>然后写入如下配置：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0"><code><span class="line"><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Demo Build CI</span></span>
+<span class="line"><span style="color:#79B8FF">on</span><span style="color:#E1E4E8">: </span><span style="color:#6A737D"># 触发条件：当main分支被推送时会自动触发这个自动化流程</span></span>
+<span class="line"><span style="color:#85E89D">  push</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    branches</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">main</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">jobs</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  build-and-deploy</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    runs-on</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">ubuntu-latest</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">    strategy</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">      matrix</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">        node-version</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">16.x</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">    steps</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Pull Code</span></span>
+<span class="line"><span style="color:#85E89D">        uses</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">actions/checkout@v3</span><span style="color:#6A737D"> # 使用现成的GitHub Actions拉取代码</span></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Setup Node.js ${{ matrix.node-version }}</span></span>
+<span class="line"><span style="color:#85E89D">        uses</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">actions/setup-node@v3</span><span style="color:#6A737D"> # 使用现成的GitHub Actions配置`Node.JS`环境</span></span>
+<span class="line"><span style="color:#85E89D">        with</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">          node-version</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">${{ matrix.node-version }}</span></span>
+<span class="line"><span style="color:#85E89D">          cache</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;npm&quot;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Install Dependencies</span><span style="color:#6A737D"> # 安装依赖</span></span>
+<span class="line"><span style="color:#85E89D">        run</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">npm install</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Build Project</span></span>
+<span class="line"><span style="color:#85E89D">        run</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">npm run build</span><span style="color:#6A737D"> # 打包项目，换成你的前端项目打包的命令</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">      - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">Deploy Github Pages</span></span>
+<span class="line"><span style="color:#85E89D">        uses</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">crazy-max/ghaction-github-pages@v3</span><span style="color:#6A737D"> # 使用现成的action自动生成commit自动提交</span></span>
+<span class="line"><span style="color:#85E89D">        with</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">          build_dir</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">dist</span><span style="color:#6A737D"> # 前面构建出来的静态文件目录</span></span>
+<span class="line"><span style="color:#85E89D">          commit_message</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;deploy: Deployed by Github Actions&quot;</span><span style="color:#6A737D"> # 提交信息，可选</span></span>
+<span class="line"><span style="color:#85E89D">          jekyll</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span><span style="color:#6A737D"> # 禁用jekyll可以防止一些特殊命名的文件无法正常访问</span></span>
+<span class="line"><span style="color:#85E89D">        env</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">          GITHUB_TOKEN</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">${{ secrets.GITHUB_TOKEN }}</span><span style="color:#6A737D"> # 必须有，是创建提交的身份凭证</span></span></code></pre>
+<p>这里面关键的 action 是<a href="https://github.com/crazy-max/ghaction-github-pages">crazy-max/ghaction-github-pages</a>。他会把配置的<code>build_dir</code>里的内容单独开一个与其他分支隔离的分支<code>target_branch</code>，默认是<code>gh-pages</code>，并通过 <code>GITHUB_TOKEN</code> 的权限将该分支推送到这个仓库里。 然后只要向前面那样配置好开启 <code>GitHub Pages</code>即可。</p>
+<h3 id="6-访问你的网站">6. 访问你的网站</h3>
+<p>当你完成了上述工作，如果不出意外，几分钟后你就能在线访问到你的网站，地址是<code>https://&lt;你的GitHub用户名&gt;.github.io</code>。</p>
+<h3 id="7-更多">7. 更多</h3>
+<p>或许你会发现，不仅仅是名为<code>&lt;用户名&gt;.github.io</code>的仓库存在第四步里的配置，而是所有的仓库都可以配置<code>GitHub Pages</code>。</p>
+<p>其他名称的仓库配置<code>GitHub Pages</code>后，在线可访问的网址是<code>https://&lt;你的GitHub用户名&gt;.github.io/&lt;该仓库的名称&gt;</code>。</p>
+<p>这样的仓库部署<code>GitHub Pages</code>后的网址基路径不是<code>/</code>，而是多了一个仓库的名称，属于“项目站点”，比较适合做为你的项目的在线文档/demo。</p>
+<p>不过，这个额外的路径会影响到网站资源路径的编写，新手上路容易被坑，因此本文不做过多介绍。详细可以参考文档：</p>
+<a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites"><p><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites">https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites</a></p></a>
+<h2 id="总结">总结</h2>
+<p>总结一下，最简单的用<code>GitHub Pages</code>部署个人网站就几步：</p>
+<ol>
+<li>创建仓库<code>https://github.com/&lt;用户名&gt;/&lt;用户名&gt;.github.io</code></li>
+<li>提交、推送网站产物代码</li>
+<li>设置<code>GitHub Pages</code>所用分支与文件夹</li>
+<li>等待部署完成</li>
+</ol>
+<p>此外可以借助<code>GitHub Actions</code>做自动打包项目，外加推送只有网站部署所需产物的相对干净的分支。</p>
+<p>好了，让我看看我这篇文章发出来长什么样子。</p>
+<a href="https://darrendanielday.github.io/posts/github-pages-tutorial">github-pages-tutorial</a></article></main><footer data-astro-cid-sz7xmlte><p data-astro-cid-sz7xmlte>
+&copy; 2023 DarrenDanielDay. All rights reserved.
+</p><p data-astro-cid-sz7xmlte><a href="https://github.com/DarrenDanielDay" target="_blank" title="Darren Daniel Day's github index" data-astro-cid-sz7xmlte><span data-astro-cid-sz7xmlte style=";--path: url(/assets/logos/github.svg)" class="undefined icon-root astro-7vlmei4a" data-astro-cid-7vlmei4a></span></a><a href="https://twitter.com/DarrenDanielDay" target="_blank" title="Darren Daniel Day's twitter index" data-astro-cid-sz7xmlte><span data-astro-cid-sz7xmlte style=";--path: url(/assets/logos/twitter.svg)" class="undefined icon-root astro-7vlmei4a" data-astro-cid-7vlmei4a></span></a><a href="https://www.facebook.com/people/Darren-Daniel-Day/100085674364454/" target="_blank" title="Darren Daniel Day's facebook index" data-astro-cid-sz7xmlte><span data-astro-cid-sz7xmlte style=";--path: url(/assets/logos/facebook.svg)" class="undefined icon-root astro-7vlmei4a" data-astro-cid-7vlmei4a></span></a></p><p class="support" data-astro-cid-sz7xmlte>
+Powered by <a href="https://astro.build" title="astro" target="_blank" data-astro-cid-sz7xmlte><span class="light" data-astro-cid-sz7xmlte><span data-no-invert data-astro-cid-sz7xmlte style=";--path: url(/assets/logos/astro-logo-light.svg)" class="undefined icon-root astro-7vlmei4a" data-astro-cid-7vlmei4a></span></span><span class="dark" data-astro-cid-sz7xmlte><span data-no-invert data-astro-cid-sz7xmlte style=";--path: url(/assets/logos/astro-logo-dark.svg)" class="undefined icon-root astro-7vlmei4a" data-astro-cid-7vlmei4a></span></span></a></p></footer></body></html>
