@@ -1,14 +1,14 @@
 ---
-import { Image, ImgHTMLAttributes } from "@astrojs/image/components";
-import type { OutputFormat, TransformOptions } from "@astrojs/image/dist/loaders";
-import type { ImageMetadata } from "@astrojs/image/dist/vite-plugin-astro-image";
+import { Image as AstroImageComponent } from 'astro:assets';
+import type { ImageOutputFormat, ImageTransform } from "astro";
 import { isModuleWithDefaultExport, isPromise } from "../scripts/util";
+import type { ImgAttributes } from "astro:assets";
 
 export interface Props
-  extends Omit<TransformOptions, "src">,
-    Omit<ImgHTMLAttributes, "src" | "alt" | "width" | "height" | "slot"> {
+  extends Omit<ImageTransform, "src">,
+    Omit<ImgAttributes, "src" | "alt" | "width" | "height" | "slot"> {
   src: ImageMetadata | Promise<{ default: ImageMetadata }>;
-  format?: OutputFormat;
+  format?: ImageOutputFormat;
 }
 const { src: propSrc, format = "webp", ...others } = Astro.props;
 
@@ -23,7 +23,8 @@ const imageMetaData = await (async () => {
   return propSrc;
 })();
 const path = imageMetaData.src;
+// 是的，搞这么个组件只是为了少写个无关紧要的alt属性，并且能用相对路径引用图片
 const alt = path.split("/").at(-1) ?? path;
 ---
 
-<Image src={imageMetaData} alt={alt} format={format} {...others} />
+<AstroImageComponent src={imageMetaData} alt={alt} format={format} {...others} />

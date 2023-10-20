@@ -1,3 +1,5 @@
+# npm config
+.npmrc
 # build output
 dist/
 .output/
